@@ -3,77 +3,204 @@
 <h2>Table of contents</h2>
 
 - [What is a coding agent](#what-is-a-coding-agent)
-- [Choose a coding agent](#choose-a-coding-agent)
-- [Set up `Qwen Code`-based agent](#set-up-qwen-code-based-agent)
-  - [Set up `Qwen Code`](#set-up-qwen-code)
-  - [Set up a coding agent in `VS Code`](#set-up-a-coding-agent-in-vs-code)
-    - [Set up `Qwen Code Companion` with `Qwen3-Coder`](#set-up-qwen-code-companion-with-qwen3-coder)
-    - [Set up `GitHub Copilot Chat` with `Qwen3-Coder`](#set-up-github-copilot-chat-with-qwen3-coder)
+- [Use a coding agent efficiently and effectively](#use-a-coding-agent-efficiently-and-effectively)
+- [Choose and use a coding agent](#choose-and-use-a-coding-agent)
+- [Skill](#skill)
+  - [Skill name](#skill-name)
+  - [Skill arguments](#skill-arguments)
+- [`Qwen Code`](#qwen-code)
+- [Set up `Qwen Code`](#set-up-qwen-code)
+  - [Set up the `Qwen Code` CLI](#set-up-the-qwen-code-cli)
+  - [Set up the `Qwen Code Companion` extension for `VS Code`](#set-up-the-qwen-code-companion-extension-for-vs-code)
+  - [Set up the `GitHub Copilot Chat` extension for `VS Code`](#set-up-the-github-copilot-chat-extension-for-vs-code)
+- [Check the `Qwen Code` credentials file](#check-the-qwen-code-credentials-file)
+- [Open a chat with `Qwen Code`](#open-a-chat-with-qwen-code)
+  - [Open a chat with `Qwen Code` using the CLI](#open-a-chat-with-qwen-code-using-the-cli)
+  - [Open a chat with `Qwen Code` using the `Qwen Code Companion` extension for `VS Code`](#open-a-chat-with-qwen-code-using-the-qwen-code-companion-extension-for-vs-code)
+  - [Open a chat with `Qwen Code` using the `GitHub Copilot Chat` extension for `VS Code`](#open-a-chat-with-qwen-code-using-the-github-copilot-chat-extension-for-vs-code)
+- [Chat with `Qwen Code`](#chat-with-qwen-code)
+  - [Refer to a file](#refer-to-a-file)
+  - [Use a skill](#use-a-skill)
 
 ## What is a coding agent
 
 A coding agent lets you use LLMs to help you complete your tasks.
 
-## Choose a coding agent
+You can [choose and use](#choose-and-use-a-coding-agent) any coding agent for this course.
 
-You may use any [coding agent](https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-patterns/coding-agents.html) with any LLM.
+You should [use the coding agent efficiently and effectively](#use-a-coding-agent-efficiently-and-effectively).
 
-`OpenRouter` provides [free models](https://openrouter.ai/collections/free-models).
+Docs:
 
-## Set up `Qwen Code`-based agent
+- [Coding agents](https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-patterns/coding-agents.html)
 
-Below, we explain how to set up coding agents based on the free [`Qwen3-Coder`](https://github.com/QwenLM/Qwen3-Coder) LLM.
+## Use a coding agent efficiently and effectively
 
-Complete these steps:
+The goal is to pay as little as possible for [tokens](./llm.md#token) and [requests](./http.md#http-request) to the [LLM provider API](./llm.md#llm-provider-api) when using a [coding agent](#what-is-a-coding-agent).
 
-1. [Set up `Qwen Code`](#set-up-qwen-code)
-2. [Set up a coding agent in `VS Code`](#set-up-a-coding-agent-in-vs-code)
+Therefore:
 
-### Set up `Qwen Code`
+- [choose a model](./llm.md#choose-a-model) that fits your [requirements](./requirements.md#what-are-requirements) and [constraints](./architecture.md#constraint).
+- give focused and actionable [prompts](./llm.md#prompts) that explain well what you want to achieve so that the agent doesn't spend tokens on irrelevant changes;
+- [set up the necessary context](./llm.md#context-engineering) that fits the [context window](./llm.md#context-window) of the underlying LLM.
 
-`Qwen Code` [provides](https://github.com/QwenLM/qwen-code#why-qwen-code) 1000 free requests per day.
+## Choose and use a coding agent
 
-- [Install](https://github.com/QwenLM/qwen-code#installation) `Qwen Code`.
-- [Authenticate](https://github.com/QwenLM/qwen-code#qwen-oauth-recommended).
-- Check that you have `Qwen` credentials at `~/.qwen/oauth_creds.json`.
+You may use any [coding agent](#what-is-a-coding-agent) with almost any [LLM](./llm.md#what-is-an-llm).
 
-### Set up a coding agent in `VS Code`
+For this course, we recommend using free [coding agents](#what-is-a-coding-agent) and [free models](./llm.md#free-models) to save your money.
 
-Set up a coding agent in `VS Code` using any of the following methods:
+Example: [`Qwen Code`](#qwen-code).
 
-<!-- no toc -->
-- Method 1: [Set up `Qwen Code Companion` with `Qwen3-Coder`](#set-up-qwen-code-companion-with-qwen3-coder)
-- Method 2: [Set up `GitHub Copilot Chat` with `Qwen3-Coder`](#set-up-github-copilot-chat-with-qwen3-coder)
+## Skill
 
-#### Set up `Qwen Code Companion` with `Qwen3-Coder`
+Docs:
 
-1. Open the `Chat` panel using one of these methods:
-    1. Method 1:
-       1. Go to the [`Editor Toolbar`](./vs-code.md#editor-toolbar).
-       2. Click the `Qwen` icon.
-    2. Method 2:
-       1. [Run using the `Command Palette`](./vs-code.md#run-a-command-using-the-command-palette):
-          `Qwen Code: Open`
-2. Write `/login` in the chat.
-3. Write `@<file-name>` to refer to the file `<file-name>`.
+- [Agent Skills](https://agentskills.io/home)
 
-#### Set up `GitHub Copilot Chat` with `Qwen3-Coder`
+### Skill name
+
+### Skill arguments
+
+## `Qwen Code`
+
+<!-- TODO move to qwen-code.md -->
+
+[`Qwen Code`](https://github.com/QwenLM/qwen-code):
+
+- [provides 1000 free requests per day](https://github.com/QwenLM/qwen-code#why-qwen-code) to the [`Qwen3-Coder`](https://github.com/QwenLM/Qwen3-Coder) model (see [Model](./llm.md#model)).
+- is available in Russia.
+
+See [Set up `Qwen Code`](#set-up-qwen-code).
+
+## Set up `Qwen Code`
+
+- Method 1: [Set up the `Qwen Code` CLI](#set-up-the-qwen-code-cli).
+- Method 2: [Set up the `Qwen Code Companion` extension for `VS Code`](#set-up-the-qwen-code-companion-extension-for-vs-code).
+- Method 3: [Set up the `GitHub Copilot Chat` extension for `VS Code`](#set-up-the-github-copilot-chat-extension-for-vs-code).
+
+### Set up the `Qwen Code` CLI
+
+> [!NOTE]
+> See [CLI](./cli.md#what-is-a-cli)
+
+1. [Install `Node.js`](./nodejs.md#install-nodejs).
+
+2. Copy the single-line [shell command](./shell.md#shell-command) from the [installation instructions](https://github.com/QwenLM/qwen-code#installation) for [`Qwen Code`](#qwen-code).
+
+3. [Open a chat with `Qwen Code` using the CLI](#open-a-chat-with-qwen-code-using-the-cli).
+
+4. Write `/auth` in the chat to [authenticate via Qwen OAuth](https://github.com/QwenLM/qwen-code?tab=readme-ov-file#authentication).
+
+5. [Check the `Qwen Code` credentials file](#check-the-qwen-code-credentials-file).
+
+### Set up the `Qwen Code Companion` extension for `VS Code`
+
+1. [Install the `VS Code` extension](./vs-code.md#install-the-vs-code-extension):
+   `qwenlm.qwen-code-vscode-ide-companion`.
+
+2. [Open a chat with `Qwen Code` using the `Qwen Code Companion` extension for `VS Code`](#open-a-chat-with-qwen-code-using-the-qwen-code-companion-extension-for-vs-code).
+
+3. Write `/login` in the chat to [authenticate via Qwen OAuth](https://github.com/QwenLM/qwen-code?tab=readme-ov-file#authentication).
+
+4. Complete the authentication procedure.
+
+5. [Check the `Qwen Code` credentials file](#check-the-qwen-code-credentials-file)
+
+### Set up the `GitHub Copilot Chat` extension for `VS Code`
 
 > [!NOTE]
 > `Copilot Chat` is not officially available for users in Russia (see [this discussion](https://github.com/orgs/community/discussions/182386)).
 
 1. [Install](https://code.visualstudio.com/docs/configure/extensions/extension-marketplace#_browse-for-extensions) the `github.copilot-chat` and `denizhandaklr.vscode-qwen-copilot` extensions.
+
 2. [Run using the `Command Palette`](./vs-code.md#run-a-command-using-the-command-palette):
-   `Qwen Copilot: Authenticate`
-3. Complete the authentication procedure.
+   `Qwen Copilot: Authenticate` to [authenticate via Qwen OAuth](https://github.com/QwenLM/qwen-code?tab=readme-ov-file#authentication).
+
+3. [Check the `Qwen Code` credentials file](#check-the-qwen-code-credentials-file).
+
 4. [Run using the `Command Palette`](./vs-code.md#run-a-command-using-the-command-palette):
-   `Chat: Manage Language Models`
+   `Chat: Manage Language Models`.
+
 5. Click `Add Models`.
+
 6. Click `Qwen Code`.
+
 7. Double click `Qwen 3 Coder Plus` to make the model visible.
-8. [Run using the `Command Palette`](./vs-code.md#run-a-command-using-the-command-palette):
+
+8. [Open a chat with `Qwen Code` using the `GitHub Copilot Chat` extension for `VS Code`](#open-a-chat-with-qwen-code-using-the-github-copilot-chat-extension-for-vs-code).
+
+## Check the `Qwen Code` credentials file
+
+[Open in `VS Code` the file](./vs-code.md#open-the-file):
+`~/.qwen/oauth_creds.json`.
+
+This file contains the `Qwen Code` authentication credentials.
+
+The file must be non-empty.
+
+## Open a chat with `Qwen Code`
+
+- Method 1: [Open a chat with `Qwen Code` using the CLI](#open-a-chat-with-qwen-code-using-the-cli)
+- Method 2: [Open a chat with `Qwen Code` using the `Qwen Code Companion` extension for `VS Code`](#open-a-chat-with-qwen-code-using-the-qwen-code-companion-extension-for-vs-code)
+- Method 3: [Open a chat with `Qwen Code` using the `GitHub Copilot Chat` extension for `VS Code`](#open-a-chat-with-qwen-code-using-the-github-copilot-chat-extension-for-vs-code)
+
+### Open a chat with `Qwen Code` using the CLI
+
+> [!NOTE]
+> See [CLI](./cli.md#what-is-a-cli).
+
+1. [Open a new `VS Code Terminal`](./vs-code.md#open-a-new-vs-code-terminal).
+2. [Run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```
+   qwen
+   ```
+
+### Open a chat with `Qwen Code` using the `Qwen Code Companion` extension for `VS Code`
+
+Method 1:
+
+1. Go to the [`Editor Toolbar`](./vs-code.md#editor-toolbar).
+2. Click the `Qwen Code: Open` icon.
+
+   <img alt="Icon Qwen Code: Open" src="./images/qwen-code/qwen-code-open.png" style="width:300px"></img>
+
+Method 2:
+
+1. [Run using the `Command Palette`](./vs-code.md#run-a-command-using-the-command-palette):
+   `Qwen Code: Open`.
+
+### Open a chat with `Qwen Code` using the `GitHub Copilot Chat` extension for `VS Code`
+
+1. [Run using the `Command Palette`](./vs-code.md#run-a-command-using-the-command-palette):
    `Chat: Open Chat`
-9. The `CHAT` panel will open.
-10. Go to `CHAT`.
-11. Click `Auto` (`Pick Model`).
-12. Click `Qwen 3 Coder Plus`.
+2. The `CHAT` panel will open.
+3. Go to `CHAT`.
+4. Click `Auto` (`Pick Model`).
+5. Click `Qwen 3 Coder Plus`.
+
+## Chat with `Qwen Code`
+
+Actions:
+
+- [Refer to a file](#refer-to-a-file)
+- [Use a skill](#use-a-skill)
+
+### Refer to a file
+
+Write `@<file-path>` (without `<` and `>`) to refer to the file at the [`<file-path>`](./file-system.md#file-path).
+
+Example: `@main.py`.
+
+### Use a skill
+
+1. [Open a chat with `Qwen Code`](#open-a-chat-with-qwen-code).
+2. Write `skills`.
+3. Press `Enter`.
+4. To use the skill, write the [skill name](#skill-name) and the [skill arguments](#skill-arguments).
+
+   Example: `commit @main.py`.
+
+   See [Refer to a file](#refer-to-a-file).
+5. Press `Enter`.

@@ -5,6 +5,7 @@
 - [What is `Git`](#what-is-git)
 - [What is remote](#what-is-remote)
   - [`<remote>`](#remote)
+- [Root directory of the repository](#root-directory-of-the-repository)
 - [Commit](#commit)
   - [Commit hash](#commit-hash)
   - [`<git-commit-hash>`](#git-commit-hash)
@@ -58,6 +59,10 @@ Common remote names:
 
 - [`origin`](./github.md#origin) — your fork on `GitHub`.
 - [`upstream`](./github.md#upstream) — the original repository that was forked.
+
+## Root directory of the repository
+
+<!-- TODO -->
 
 ## Commit
 

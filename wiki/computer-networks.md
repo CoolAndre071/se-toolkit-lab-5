@@ -10,11 +10,12 @@
   - [IPv4](#ipv4)
   - [IPv6](#ipv6)
 - [Host](#host)
+  - [Local host](#local-host)
+  - [Remote host](#remote-host)
   - [Hostname](#hostname)
     - [`localhost`](#localhost)
     - [`127.0.0.1`](#127001)
     - [`0.0.0.0`](#0000)
-  - [Remote host](#remote-host)
 - [Port](#port)
   - [Port number](#port-number)
   - [System port](#system-port)
@@ -88,6 +89,18 @@ Hosts can send and receive data over the network.
 
 Examples: computers, servers, [virtual machines](./vm.md#what-is-a-vm).
 
+### Local host
+
+A local [host](#host) is the [machine](#machine) you are currently working on — the one where your commands run.
+
+It is accessed directly, without going through a [network](#what-is-a-network). See [`localhost`](#localhost) for the [hostname](#hostname) that refers to it.
+
+### Remote host
+
+A remote [host](#host) is a host that is not the [local host](#localhost) — it is accessed over a [network](#what-is-a-network).
+
+Example: [your VM](./vm.md#your-vm) you connect to via [`SSH`](./ssh.md#what-is-ssh) is a remote host.
+
 ### Hostname
 
 A hostname is a human-readable label assigned to a [host](#host) on a [network](#what-is-a-network).
@@ -115,12 +128,6 @@ Connections to `localhost` never leave the host — they are handled entirely wi
 When a [process](./operating-system.md#process) that [listens on a port](#listen-on-a-port) is bound to `0.0.0.0`, it accepts connections from any network interface — including [`localhost`](#localhost) and external networks. In contrast, binding to `127.0.0.1` restricts connections to the local host only.
 
 This is commonly used to make a service accessible from outside the [machine](#machine) (e.g., from your laptop to a [virtual machine](./vm.md#what-is-a-vm)).
-
-### Remote host
-
-A remote [host](#host) is a host that is not the [local host](#localhost) — it is accessed over a [network](#what-is-a-network).
-
-Example: [your VM](./vm.md#your-vm) you connect to via [`SSH`](./ssh.md#what-is-ssh) is a remote host.
 
 ## Port
 

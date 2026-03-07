@@ -17,6 +17,7 @@
 - [User](#user)
   - [`<user>` placeholder](#user-placeholder)
 - [Group](#group)
+- [Terminal](#terminal)
 
 ## What is an operating system
 
@@ -126,3 +127,7 @@ A group is a collection of [users](#user) that share the same access permissions
 Groups allow an administrator to manage permissions for multiple users at once: adding a user to a group grants them all the group's permissions.
 
 Each user has a primary group and can belong to additional supplementary groups.
+
+## Terminal
+
+<!-- TODO -->

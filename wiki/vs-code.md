@@ -32,9 +32,9 @@
   - [Expand the sidebar with open `VS Code Terminal`s](#expand-the-sidebar-with-open-vs-code-terminals)
   - [(`Windows` only) Switch to the `Linux` shell for the `VS Code Terminal`](#windows-only-switch-to-the-linux-shell-for-the-vs-code-terminal)
   - [Run a command in the `VS Code Terminal`](#run-a-command-in-the-vs-code-terminal)
-- [`Explorer`](#explorer)
-  - [Open the `Explorer`](#open-the-explorer)
-  - [Open the local file using the `Explorer`](#open-the-local-file-using-the-explorer)
+- [`VS Code Explorer`](#vs-code-explorer)
+  - [Open the `VS Code Explorer`](#open-the-vs-code-explorer)
+  - [Open the local file using the `VS Code Explorer`](#open-the-local-file-using-the-vs-code-explorer)
 - [`Source Control`](#source-control)
   - [Open the `Source Control`](#open-the-source-control)
   - [Close the `Source Control`](#close-the-source-control)
@@ -342,6 +342,9 @@ Method 2:
 
 ### (`Windows` only) Switch to the `Linux` shell for the `VS Code Terminal`
 
+> [!NOTE]
+> See [`Linux` shell](./shell.md#linix-shell).
+
 1. Make sure you can [run `VS Code` in `WSL`](#windows-only-set-up-running-vs-code-in-wsl).
 2. [Reopen the directory in `WSL`](#windows-only-reopen-the-directory-in-wsl)
 3. [Run using the `Command Palette`](#run-a-command-using-the-command-palette):
@@ -353,13 +356,16 @@ Method 2:
      <img alt="Terminal Default Profile - Bad Options" src="./images/vs-code/command-palette-default-terminal-profile-bad-options.png" style="width:400px"></img>
 
      Return to the first step and make sure you can [run `VS Code` in `WSL`](#windows-only-set-up-running-vs-code-in-wsl).
+
    - Case 2 (good): You're running `VS Code` outside `WSL`.
 
      <img alt="Terminal Default Profile - Outside WSL" src="./images/vs-code/command-palette-default-terminal-profile-outside-wsl-wsl.png" style="width:400px"></img>
 
      [Switch to the `Linux` shell for the `VS Code Terminal`](#windows-only-switch-to-the-linux-shell-for-the-vs-code-terminal) again.
 
-   - Case 3 (the best): You're running `VS Code` inside `WSL`. You've probably [opened the directory inside `WSL`](#windows-only-open-the-directory-in-wsl). This is the best case.
+   - Case 3 (the best): You're running `VS Code` inside `WSL`.
+     You've probably [opened the directory inside `WSL`](#windows-only-open-the-directory-in-wsl).
+     This is the best case.
 
      <img alt="Terminal Default Profile - Bash" src="./images/vs-code/command-palette-default-terminal-profile-bash.png" style="width:400px"></img>
 
@@ -372,10 +378,11 @@ Method 2:
 
 1. [Open the `VS Code Terminal`](#open-the-vs-code-terminal).
 2. [Check the current shell in the `VS Code Terminal`](#check-the-current-shell-in-the-vs-code-terminal).
-3. Write or [paste](#paste-text-inside-the-vs-code-terminal) a command.
-4. Press `Enter`.
+3. [Check whether you run in the `SSH` shell](./shell.md#check-what-shell-is-running)
+4. Write or [paste](#paste-text-inside-the-vs-code-terminal) a [command](./shell.md#shell-command) or commands.
+5. Press `Enter`.
 
-## `Explorer`
+## `VS Code Explorer`
 
 View the file tree.
 
@@ -387,19 +394,19 @@ Docs:
 
 Actions:
 
-- [Open the `Explorer`](#open-the-explorer)
-- [Open the local file using the `Explorer`](#open-the-local-file-using-the-explorer)
+- [Open the `VS Code Explorer`](#open-the-vs-code-explorer)
+- [Open the local file using the `VS Code Explorer`](#open-the-local-file-using-the-vs-code-explorer)
 
-### Open the `Explorer`
+### Open the `VS Code Explorer`
 
 1. Go to the [`Activity Bar`](#activity-bar).
 2. Click the `Explorer` icon.
 
    <img alt="Explorer" src="./images/vs-code/activity-bar-explorer.png" style="width:100px"></img>
 
-### Open the local file using the `Explorer`
+### Open the local file using the `VS Code Explorer`
 
-1. [Open the `Explorer`](#open-the-explorer).
+1. [Open the `Explorer`](#open-the-vs-code-explorer).
 2. Search for the file in the file tree.
 3. Click it.
 
@@ -596,7 +603,7 @@ Here are some [workspace settings](#workspace-settings) that you can change:
 ### Open the directory
 
 > [!NOTE]
-> The `<directory-name>` is the name of a directory that you want to open.
+> The `<directory-name>` is the name of a directory (without `<` and `>`) that you want to open.
 >
 > Example: `software-engineering-toolkit`
 
@@ -632,7 +639,7 @@ Here are some [workspace settings](#workspace-settings) that you can change:
 ### Open the file
 
 <!-- no toc -->
-- Method 1: [Open the local file using `Explorer`](#open-the-local-file-using-the-explorer)
+- Method 1: [Open the local file using `VS Code Explorer`](#open-the-local-file-using-the-vs-code-explorer)
 - Method 2: [Open the file using `Quick Open`](#open-the-file-using-quick-open)
 - Method 3: [Open the file using `code`](#open-the-file-using-code)
 - Method 4: [Open the file using a context menu](#open-the-file-using-a-context-menu)

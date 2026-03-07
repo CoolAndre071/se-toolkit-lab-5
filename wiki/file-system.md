@@ -8,6 +8,7 @@
   - [Extension](#extension)
   - [Location](#location)
 - [Directory](#directory)
+  - [Subdirectory](#subdirectory)
 - [Path](#path)
   - [Absolute path](#absolute-path)
   - [Relative path](#relative-path)
@@ -59,6 +60,10 @@ Example: for the file `/home/user/project/README.md`, the location is `/home/use
 A directory (a.k.a. "folder" on `Windows`) is a special type of [file](#file) that contains other files and directories.
 
 Directories nest inside one another, forming a tree structure rooted at the [root directory](#root-directory-).
+
+### Subdirectory
+
+<!-- TODO -->
 
 ## Path
 

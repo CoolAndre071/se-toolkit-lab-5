@@ -6,10 +6,11 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: Description
-      description: Summarize what this task is about in your own words.
+      label: Goal
+      description: What outcome should this task produce?
       placeholder: |
-        Make X work with Y ...
+        Expected result:
+        <short, concrete outcome>
     validations:
       required: true
   - type: textarea

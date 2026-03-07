@@ -18,6 +18,7 @@
 - [Login](#login)
   - [Login without password](#login-without-password)
   - [Login with password](#login-with-password)
+- [Check whether you run an `SSH` shell](#check-whether-you-run-an-ssh-shell)
 - [Common errors](#common-errors)
   - [`Permission denied (publickey)`](#permission-denied-publickey)
   - [`Bad owner or permissions`](#bad-owner-or-permissions)
@@ -254,6 +255,23 @@ Password-based authentication asks you to type the remote user's password.
    ```
 
 2. Type the VM's root password when prompted.
+
+## Check whether you run an `SSH` shell
+
+1. To check whether you run an `SSH` shell,
+
+   [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```
+   w
+   ```
+
+2. Look at the `FROM` column.
+
+   If the value in that column:
+
+   - is an [IP address](./computer-networks.md#ip-address), you run in an `SSH` shell.
+   - `-`, you run on your local [machine](./computer-networks.md#machine) (computer).
 
 ## Common errors
 

@@ -150,7 +150,7 @@ When you fork a repository on `GitHub`, you create a personal copy under your `G
 2. Go to the repo that you want to fork.
 3. Click `Fork`.
    1. Click `Choose an owner`.
-   2. Click `<your-github-username>` to make you the repo owner.
+   2. Click [`<your-github-username>`](#your-github-username) to make you the repo owner.
    3. Click `Create fork`.
 
 ### `<your-fork-url>`

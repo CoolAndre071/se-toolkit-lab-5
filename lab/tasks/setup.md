@@ -98,13 +98,13 @@
 
 1. [Fork the course instructors' repo](../../wiki/github.md#fork-a-repo).
 
-   The course instructors' repo [URL](../../wiki/computer-networks.md#url) is <https://github.com/inno-se-toolkit/se-toolkit-lab-4>.
+   The course instructors' repo [URL](../../wiki/computer-networks.md#url) is <https://github.com/inno-se-toolkit/se-toolkit-lab-5>.
 
 #### 1.3.3. (UPD) Go to your fork
 
 1. [Go to your fork](../../wiki/github.md#go-to-your-fork).
 
-   The [URL](../../wiki/computer-networks.md#url) of your fork should look like `https://github.com/<your-github-username>/se-toolkit-lab-4`.
+   The [URL](../../wiki/computer-networks.md#url) of your fork should look like `https://github.com/<your-github-username>/se-toolkit-lab-5`.
 
 #### 1.3.4. (UPD) Enable issues
 
@@ -176,7 +176,7 @@
 1. [Go to your fork](#133-upd-go-to-your-fork).
 2. Copy [`<your-fork-url>`](../../wiki/github.md#your-fork-url).
 
-   It should look like `https://github.com/<your-github-username>/se-toolkit-lab-4`.
+   It should look like `https://github.com/<your-github-username>/se-toolkit-lab-5`.
 
    See [`<your-github-username>`](../../wiki/github.md#your-github-username).
 
@@ -185,7 +185,7 @@
 1. [Clone your fork](../../wiki/git-vscode.md#clone-the-repository):
 
    - Replace `<repo-url>` with [`<your-fork-url>`](../../wiki/github.md#your-fork-url).
-   - Replace `<repo-name>` with `se-toolkit-lab-4`.
+   - Replace `<repo-name>` with `se-toolkit-lab-5`.
 
 ### 1.7. (UPD) Open the cloned repo and set up `VS Code`
 
@@ -194,7 +194,7 @@
 > Otherwise, your setup will be broken.
 
 1. [Open in `VS Code` the directory](../../wiki/vs-code.md#open-the-directory):
-   `se-toolkit-lab-4`.
+   `se-toolkit-lab-5`.
 2. [Check the current shell in the `VS Code Terminal`](../../wiki/vs-code.md#check-the-current-shell-in-the-vs-code-terminal).
 3. [Install the recommended `VS Code` extensions](../../wiki/vs-code.md#install-the-recommended-vs-code-extensions).
 
@@ -407,7 +407,7 @@ Make sure the services are running. Go back to [step 1.11.2](#1112-upd-start-the
 
 ### 1.15. (UPD) Stop the services
 
-1. [Check that the current directory is `se-toolkit-lab-4`](../../wiki/shell.md#check-the-current-directory-is-directory-name).
+1. [Check that the current directory is `se-toolkit-lab-5`](../../wiki/shell.md#check-the-current-directory-is-directory-name).
 2. [Stop and remove all containers and volumes](../../wiki/docker-compose.md#stop-and-remove-all-containers-and-volumes).
 
 ### 1.16. (UPD) Set up a coding agent

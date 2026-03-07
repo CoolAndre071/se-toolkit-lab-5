@@ -4,6 +4,7 @@
 
 - [DRY](#dry)
 - [Hyperlinks when mentioning sections](#hyperlinks-when-mentioning-sections)
+- [No Markdown tables](#no-markdown-tables)
 - [Section link text](#section-link-text)
 
 ---
@@ -23,6 +24,12 @@ Good: `See [Section name](#section-name).`
 Good (cross-file): `See [Section name](other-file.md#section-name).`
 
 Bad: `See the Section name section.`
+
+---
+
+## No Markdown tables
+
+Never use Markdown tables in convention files. Use bullet lists instead — they are easier to read, write, and maintain.
 
 ---
 

@@ -33,7 +33,7 @@ Review a single file for problems — first conceptual and pedagogical issues, t
 
 ## Output format
 
-Write the report to `tmp/review-file-by-conventions/<repo-root-path>`, where `<repo-root-path>` is the file's path from the repository root (e.g., `tmp/review-file-by-conventions/lab/tasks/setup.md` for `lab/tasks/setup.md`, `tmp/review-file-by-conventions/wiki/web-development.md` for `wiki/web-development.md`). Create intermediate directories if they do not exist.
+Write the report to `instructors/file-reviews/<repo-root-path>`, where `<repo-root-path>` is the file's path from the repository root (e.g., `instructors/file-reviews/lab/tasks/setup.md` for `lab/tasks/setup.md`, `instructors/file-reviews/wiki/web-development.md` for `wiki/web-development.md`). Create intermediate directories if they do not exist.
 
 The report must be self-contained so another session or agent can act on it without extra context. Structure:
 

@@ -21,7 +21,7 @@ A lab is the time for learning:
 
 ### `<lab-repo-name>`
 
-`se-toolkit-lab-4` (without `<` and `>`).
+`se-toolkit-lab-5` (without `<` and `>`).
 
 ## Prompts for coding agents
 

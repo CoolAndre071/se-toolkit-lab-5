@@ -33,7 +33,7 @@ Each section below describes what belongs in it and how detailed it should be. U
 
 ### Table of contents
 
-Immediately after the report title, include a table of contents listing every section heading below as a Markdown link. This gives readers a quick overview and lets them jump to the relevant part. Use an HTML heading (`<h2>Table of contents</h2>`) instead of a Markdown `##` heading so the TOC entry does not appear inside its own list.
+Immediately after the report title, include a table of contents listing every section heading below as a Markdown link. This gives readers a quick overview and lets them jump to the relevant part. Use an HTML heading (`<h2>Table of contents</h2>`) instead of a Markdown `##` heading so the TOC entry does not appear inside its own list. The TOC list itself must be in Markdown format (bullet list with `- [Link](#anchor)` syntax).
 
 ### Metadata
 

@@ -6,13 +6,11 @@
 
 <h4>Purpose</h4>
 
-Build an ETL pipeline that fetches data from an external API and loads it into the database, handling pagination, incremental sync, and idempotent upserts.
+Build an ETL pipeline that fetches data from an external API and loads it into the database.
 
 <h4>Context</h4>
 
-The database starts empty. The autochecker dashboard API provides anonymized check results for all students across all labs. Your job is to build a pipeline that fetches this data and populates the local database so the system can serve it through existing endpoints and power analytics in the next task.
-
-The code stubs in [`backend/app/etl.py`](../../../backend/app/etl.py) contain detailed TODOs. You will use an AI coding agent to implement the pipeline functions.
+The database starts empty. We can get anonymized data on task completions in Autochecker API. Your job is to build a pipeline that fetches this data and populates your database so the system can serve it through existing endpoints to display as analytics.
 
 <h4>Table of contents</h4>
 
@@ -26,57 +24,70 @@ The code stubs in [`backend/app/etl.py`](../../../backend/app/etl.py) contain de
   - [1.4. Part B: Build the pipeline](#14-part-b-build-the-pipeline)
     - [1.4.1. Read the code stubs](#141-read-the-code-stubs)
     - [1.4.2. Implement the pipeline](#142-implement-the-pipeline)
-    - [1.4.3. Deploy and test](#143-deploy-and-test)
-    - [1.4.4. Verify the data](#144-verify-the-data)
-    - [1.4.5. Test idempotency](#145-test-idempotency)
-    - [1.4.6. Commit your work](#146-commit-your-work)
+    - [1.4.3. Run and test locally](#143-run-and-test-locally)
+    - [1.4.4. Verify the data locally](#144-verify-the-data-locally)
+    - [1.4.5. Test idempotency locally](#145-test-idempotency-locally)
+    - [1.4.6. Commit and push your work](#146-commit-and-push-your-work)
+    - [1.4.7. Update and test on the VM](#147-update-and-test-on-the-vm)
   - [1.5. Finish the task](#15-finish-the-task)
+  - [1.6. Check the task using the autochecker](#16-check-the-task-using-the-autochecker)
 - [2. Acceptance criteria](#2-acceptance-criteria)
 
 ## 1. Steps
 
-### 1.1. Create an issue
+### 1.1. Follow the [`Git workflow`](../../../wiki/git-workflow.md)
 
-Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
+Follow the [`Git workflow`](../../../wiki/git-workflow.md) to complete this task.
 
-> [!TODO:]
->
-> they should also create a branch.
->
-> may be check issue body
->
-> Break line at the end of all curl commands json
->
-> Load test the api to make it robust enough to handle the load by students
->
-> Give hints how to provide prompts where plausible, with the "planning", "step-by-step", "explain" bit in it.
+### 1.2. Create a `Lab Task` issue
 
-> We follow the usual [`Git workflow`](../../../wiki/git-workflow.md) to complete all tasks.
+1. Create a `GitHub` issue titled:
 
-### 1.2. Part A: Explore the API
+   ```
+   [Task] Build the Data Pipeline
+   ```
+
+2. To create a branch for the task,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```terminal
+   git checkout main
+   git pull origin main
+   git checkout -b task/1-build-data-pipeline
+   ```
+
+   We named the branch `task/1-build-data-pipeline` because:
+   - The issue number (`1`) ties the branch to the task issue directly.
+   - The short title (`build-data-pipeline`) makes branch purpose clear in PR lists and `Git` history.
+   - The pattern reduces naming collisions across the team.
+
+### 1.3. Part A: Explore the API
 
 <!-- no toc -->
 - [1.3.1. Fetch the item catalog](#131-fetch-the-item-catalog)
 - [1.3.2. Fetch check logs](#132-fetch-check-logs)
 - [1.3.3. Test incremental sync](#133-test-incremental-sync)
 
-> [!NOTE]
-> Before writing any code, lets explore the autochecker API with `curl` to understand the data format.
-> The API uses HTTP Basic Auth — your <email> as the username and `<your-github-username><your-telegram-alias>` as the password.
+Before writing code, let's explore the autochecker API.
 
-#### 1.2.1. Fetch the item catalog
+The API has HTTP Basic Auth, we'll use `curl` to send requests.
+
+#### 1.3.1. Fetch the item catalog
 
 1. To fetch the lab/task catalog,
 
-   run in the `VS Code Terminal`:
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
-   curl -u <your-email>@innopolis.university:<your-github-username><your-telegram-alias> https://auche.namaz.live/api/items
+   curl \
+     -u <your-email>@innopolis.university:<github-username><telegram-alias> \
+     "https://auche.namaz.live/api/items"
    ```
 
-   Replace `<your-email>` and `<your-github-username><your-telegram-alias>` (must be same as you entered in autochecker bot).
+   Replace `<your-email>` and `<github-username><telegram-alias>` with the credentials you entered in autochecker bot.
 
-   You should see a JSON array of lab and task objects:
+   You should see a `JSON` array of labs and tasks from this course:
 
    ```json
    [
@@ -86,22 +97,22 @@ Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
    ]
    ```
 
-   > [!NOTE]
-   > Items with `"type": "lab"` are labs. Items with `"type": "task"` have a non-null `task` field and belong to the lab specified in the `lab` field.
-   > 
-   > You can paste the response in an [online JSON viewer](https://jsonformatter.org/) and press beautify to view it properly.
+> [!NOTE]
+> If your terminal shows JSON in one long line, you can format the output using an [online JSON viewer](https://jsonformatter.org/).
 
-#### 1.2.2. Fetch check logs
+#### 1.3.2. Fetch check logs
 
 1. To fetch the first 5 check logs,
 
-   run in the `VS Code Terminal`:
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
-   curl -u <your-email>@innopolis.university:<your-github-username><your-telegram-alias> "https://auche.namaz.live/api/logs?limit=5"
+   curl \
+     -u <your-email>@innopolis.university:<github-username><telegram-alias> \
+     "https://auche.namaz.live/api/logs?limit=5"
    ```
 
-   You should see a JSON object with a `logs` array:
+   You should see a `JSON` object with a `logs` array:
 
    ```json
    {
@@ -125,52 +136,58 @@ Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
    }
    ```
 
-   > [!NOTE]
-   > - `student_id` is an anonymized identifier (not a real student ID).
-   > - `has_more: true` means there are more records — you need to paginate.
-   > - `score` is a percentage (0.0–100.0).
-   > - `passed`, `failed`, and `total` are the number of individual checks.
+> [!NOTE]
+>
+> - `student_id` is an anonymized identifier (not a real student ID).
+> - `has_more: true` means there are more records — you need to paginate.
+> - `score` is a percentage (0.0–100.0).
+> - `passed`, `failed`, and `total` are the number of individual checks.
 
 #### 1.3.3. Test incremental sync
 
 1. To fetch only recent logs,
 
-   run in the `VS Code Terminal`:
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
-   curl -u <your-email>@innopolis.university:<your-github-username><your-telegram-alias> "https://auche.namaz.live/api/logs?since=2026-03-01T00:00:00Z&limit=5"
+   curl \
+     -u <your-email>@innopolis.university:<github-username><telegram-alias> \
+     "https://auche.namaz.live/api/logs?since=2026-03-01T00:00:00Z&limit=5"
    ```
 
    You should see only logs submitted after March 1st 2026.
 
-   > [!NOTE]
-   > The `since` parameter enables incremental sync — you can fetch new data each time.
-   > Your pipeline will use the most recent `submitted_at` from the database as the `since` value.
+> [!NOTE]
+> The `since` parameter enables incremental sync — you can fetch new data each time.
+> Your pipeline will use the most recent `submitted_at` from the database as the `since` value.
 
 ### 1.4. Part B: Build the pipeline
 
 <!-- no toc -->
 - [1.4.1. Read the code stubs](#141-read-the-code-stubs)
 - [1.4.2. Implement the pipeline](#142-implement-the-pipeline)
-- [1.4.3. Deploy and test](#143-deploy-and-test)
-- [1.4.4. Verify the data](#144-verify-the-data)
-- [1.4.5. Test idempotency](#145-test-idempotency)
-- [1.4.6. Commit your work](#146-commit-your-work)
+- [1.4.3. Run and test locally](#143-run-and-test-locally)
+- [1.4.4. Verify the data locally](#144-verify-the-data-locally)
+- [1.4.5. Test idempotency locally](#145-test-idempotency-locally)
+- [1.4.6. Commit and push your work](#146-commit-and-push-your-work)
+- [1.4.7. Update and test on the VM](#147-update-and-test-on-the-vm)
 
 #### 1.4.1. Read the code stubs
+
+The code stubs in `backend/app/etl.py` contain detailed TODOs.
 
 1. Open the file:
    [`backend/app/etl.py`](../../../backend/app/etl.py).
 
    This file contains five functions with detailed TODO comments:
 
-   | Function | Role |
-   |----------|------|
-   | `fetch_items()` | Fetch the lab/task catalog from the API |
-   | `fetch_logs()` | Fetch check logs with pagination |
-   | `load_items()` | Insert items into the database |
-   | `load_logs()` | Insert logs (with learner creation) into the database |
-   | `sync()` | Orchestrate the full pipeline |
+   | Function        | Role                                                  |
+   | --------------- | ----------------------------------------------------- |
+   | `fetch_items()` | Fetch the lab/task catalog from the API               |
+   | `fetch_logs()`  | Fetch check logs with pagination                      |
+   | `load_items()`  | Insert items into the database                        |
+   | `load_logs()`   | Insert logs (with learner creation) into the database |
+   | `sync()`        | Orchestrate the full pipeline                         |
 
 2. Open the file:
    [`backend/app/routers/pipeline.py`](../../../backend/app/routers/pipeline.py).
@@ -187,9 +204,9 @@ Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
 #### 1.4.2. Implement the pipeline
 
 1. Start the `Qwen code` coding agent in the terminal inside the project directory.
-2. Give it a prompt like:
+2. Give it a prompt that asks for planning, implementation, and explanation:
 
-   > "Read the TODO comments in `backend/app/etl.py` and implement all five functions. Use the existing models in `backend/app/models/` and the settings in `backend/app/settings.py`. The API uses HTTP Basic Auth. Explain to me step by step to maximize learning."
+   > "Read the TODO comments in `backend/app/etl.py` and implement all five functions one by one. Use the existing models in `backend/app/models/` and the settings in `backend/app/settings.py`. The API uses HTTP Basic Auth. First give me a short numbered plan, then implement a function, deploy locally, then test, report to me what exactly you've done and explain each function step by step as if teaching a junior engineer. Then confirm with me and proceed to the next function."
 
 3. Wait for the agent to generate the implementation.
 
@@ -197,39 +214,39 @@ Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
 
    - Uses `httpx.AsyncClient` with HTTP Basic Auth for API calls.
    - Handles pagination in `fetch_logs()` (loops while `has_more` is True).
+   - In `load_items()`, maps labs by their short ID (e.g. `"lab-01"`), not by title, so tasks can find their parent.
+   - Passes the raw items catalog to `load_logs()` so it can map log fields (e.g. `"lab-01"`, `"setup"`) to item titles in the DB.
    - Creates learners by `external_id` in `load_logs()` (find-or-create pattern).
    - Uses `external_id` on `InteractionLog` for idempotent upserts (skip if exists).
    - Returns `{"new_records": N, "total_records": M}` from `sync()`.
 
 > [!TIP]
-> If you prefer to implement the functions manually, the TODO comments in `etl.py` describe each function step by step.
+> To get educational answers from a coding agent, ask for these explicitly:
+>
+> - "Plan first, then code."
+> - "Explain each function step by step."
+> - "Call out assumptions and edge cases."
+> - "After coding, summarize why this implementation is correct."
 
-#### 1.4.3. Deploy and test
+#### 1.4.3. Run and test locally
 
-1. Push your changes and deploy to the VM.
+1. To deploy your changes locally,
 
-   On your VM:
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
-   cd se-toolkit-lab-5
-   git fetch origin && git checkout <task-branch> && git pull
    docker compose --env-file .env.docker.secret up --build -d
    ```
 
-   Replace [`<task-branch>`](../../../wiki/git-workflow.md#task-branch).
+2. Open [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui) at `http://localhost:<caddy-port>/docs`.
 
-2. Open [`Swagger UI`](../../../wiki/swagger.md#what-is-swagger-ui) at `http://<your-vm-ip-address>:<caddy-port>/docs`.
+   Replace `<caddy-port>` with the value of [`CADDY_HOST_PORT`](../../../wiki/dotenv-docker-secret.md#caddy_host_port) in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret) (default: `42002`).
 
-   Replace:
-
-   - [`<your-vm-ip-address>`](../../../wiki/vm.md#your-vm-ip-address)
-   - [`<caddy-port>`](../../../wiki/caddy.md#caddy-port)
-
-3. [Authorize](../../../wiki/swagger.md#authorize-in-swagger-ui) with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key).
+3. Authorize with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key).
 
 4. Trigger the pipeline: expand `POST /pipeline/sync`, click `Try it out`, then `Execute`.
 
-   You should see a `200` response with a JSON body:
+   You should see a `200` response with a `JSON` body:
 
    ```json
    {
@@ -240,15 +257,29 @@ Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
 
    The exact numbers depend on how many check results exist in the autochecker.
 
+   > [!TIP]
+   > **If you get a `500` error**, the pipeline code has a bug. Use this debug loop:
+   >
+   > 1. Check the container logs:
+   >    ```terminal
+   >    docker compose --env-file .env.docker.secret logs app --tail 50
+   >    ```
+   > 2. Copy the error traceback and give it to your coding agent.
+   > 3. Apply the fix, rebuild (`docker compose --env-file .env.docker.secret up --build -d`), and try again.
+   >
+   > It is normal to repeat this 2–3 times. AI agents often make mistakes with field names, imports, or database constraints on the first try. Each iteration gets you closer.
+
    <details><summary>Troubleshooting</summary>
 
    <h4>401 Unauthorized from the autochecker API</h4>
 
-   Check that `AUTOCHECKER_EMAIL` and `AUTOCHECKER_PASSWORD` are set correctly in `.env.docker.secret`. The password is `<your-github-username><your-telegram-alias>` (no spaces, no `@`).
+   Check that `AUTOCHECKER_EMAIL` and `AUTOCHECKER_PASSWORD` are set correctly in `.env.docker.secret`. The password is `<github-username><telegram-alias>` (no spaces, no `@`).
 
    <h4>500 Internal Server Error</h4>
 
-   Check the container logs for the error:
+   To check the container logs for the error,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
    docker compose --env-file .env.docker.secret logs app --tail 50
@@ -262,9 +293,9 @@ Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
 
    </details>
 
-#### 1.4.4. Verify the data
+#### 1.4.4. Verify the data locally
 
-1. In `Swagger UI`, try `GET /items/`.
+1. In local [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui), try `GET /items/`.
 
    You should see a list of lab and task items created by the pipeline.
 
@@ -278,9 +309,9 @@ Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
 
 4. (Optional) Open [`pgAdmin`](../../../wiki/pgadmin.md#what-is-pgadmin) and inspect the tables directly.
 
-#### 1.4.5. Test idempotency
+#### 1.4.5. Test idempotency locally
 
-1. In `Swagger UI`, run `POST /pipeline/sync` again.
+1. In local [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui), run `POST /pipeline/sync` again.
 
    You should see:
 
@@ -297,7 +328,7 @@ Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
 > Idempotent upserts are important for production pipelines.
 > If the pipeline is interrupted, you can safely re-run it without creating duplicates.
 
-#### 1.4.6. Commit your work
+#### 1.4.6. Commit and push your work
 
 1. [Commit](../../../wiki/git-workflow.md#commit) your changes.
 
@@ -307,17 +338,69 @@ Create a `Lab Task` issue titled: `[Task] Build the Data Pipeline`
    feat: implement ETL pipeline for autochecker data
    ```
 
+2. To push your task branch,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```terminal
+   git push -u origin <task-branch>
+   ```
+
+   Replace [`<task-branch>`](../../../wiki/git-workflow.md#task-branch).
+
+#### 1.4.7. Update and test on the VM
+
+1. To pull your branch and restart the services on your VM,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```terminal
+   cd se-toolkit-lab-5
+   git fetch origin
+   git checkout <task-branch>
+   git pull origin <task-branch>
+   docker compose --env-file .env.docker.secret up --build -d
+   ```
+
+2. Open [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui) at `http://<your-vm-ip-address>:<caddy-port>/docs`.
+
+   Replace:
+
+   - `<your-vm-ip-address>` with your VM's IP address.
+   - `<caddy-port>` with the value of [`CADDY_HOST_PORT`](../../../wiki/dotenv-docker-secret.md#caddy_host_port) (default: `42002`).
+
+3. Authorize with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key).
+
+4. Run `POST /pipeline/sync` once.
+
+   You should get `200` with `new_records` and `total_records`.
+
 ### 1.5. Finish the task
 
-1. [Create a PR](../../../wiki/git-workflow.md#create-a-pr-to-the-main-branch-in-your-fork) with your changes.
-2. [Get a PR review](../../../wiki/git-workflow.md#get-a-pr-review) and complete the subsequent steps in the `Git workflow`.
+1. Go to your fork on `GitHub` and click `Pull requests` → `New pull request`.
+
+2. **Change the base repository to your own fork** — by default `GitHub` sets the base to the upstream (`inno-se-toolkit/se-toolkit-lab-5`). Click `base repository` and select `<your-github-username>/se-toolkit-lab-5` instead.
+
+3. Set the base branch to `main` and the compare branch to your task branch (e.g. `task/1-build-data-pipeline`).
+
+4. Write a PR title and description. Link the PR to the issue by writing `Closes #<issue-number>` in the description.
+
+5. Click `Create pull request`.
+
+6. Ask your partner to review and approve the PR.
+
+7. Merge the PR and close the issue.
+
+### 1.6. Check the task using the autochecker
+
+[Check the task using the autochecker `Telegram` bot](../../../wiki/autochecker.md#check-the-task-using-the-autochecker-bot).
 
 ---
 
 ## 2. Acceptance criteria
 
 - [ ] Issue has the correct title.
-- [ ] `POST /pipeline/sync` returns `200` with a JSON body containing `new_records` and `total_records`.
+- [ ] `POST /pipeline/sync` returns `200` with a `JSON` body containing `new_records` and `total_records`.
 - [ ] `GET /items/` returns items created by the pipeline (labs and tasks).
 - [ ] `GET /learners/` returns learners created by the pipeline.
 - [ ] `GET /interactions/` returns interactions with scores.

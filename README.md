@@ -66,10 +66,10 @@ In simple words, you should be able to say:
 
 ### Required
 
-1. [Build the data pipeline](./lab/tasks/required/task-1.md)
-2. [Analytics endpoints](./lab/tasks/required/task-2.md)
-3. [Dashboard front-end](./lab/tasks/required/task-3.md)
+1. [Build the data pipeline](./lab/tasks/required/task-1.md#build-the-data-pipeline)
+2. [Analytics endpoints](./lab/tasks/required/task-2.md#analytics-endpoints)
+3. [Dashboard front-end](./lab/tasks/required/task-3.md#dashboard-front-end)
 
 ### Optional
 
-1. [Grafana dashboard](./lab/tasks/optional/task-1.md)
+1. [Grafana dashboard](./lab/tasks/optional/task-1.md#grafana-dashboard)

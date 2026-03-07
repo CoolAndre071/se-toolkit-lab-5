@@ -6,7 +6,7 @@
 
 <h4>Purpose</h4>
 
-Implement four analytics endpoints that perform SQL aggregation queries on the data populated by the ETL pipeline. Use pre-written tests to verify your implementation.
+Implement four analytics endpoints that perform `SQL` aggregation queries on the data populated by the ETL pipeline. Use pre-written tests to verify your implementation.
 
 <h4>Context</h4>
 
@@ -27,9 +27,10 @@ Pre-written tests in [`backend/tests/unit/test_analytics.py`](../../../backend/t
     - [1.5.3. Timeline](#153-timeline)
     - [1.5.4. Groups](#154-groups)
   - [1.6. Run the tests (all should pass)](#16-run-the-tests-all-should-pass)
-  - [1.7. Deploy and verify](#17-deploy-and-verify)
-  - [1.8. Commit your work](#18-commit-your-work)
+  - [1.7. Commit and push your work](#17-commit-and-push-your-work)
+  - [1.8. Deploy and verify](#18-deploy-and-verify)
   - [1.9. Finish the task](#19-finish-the-task)
+  - [1.10. Check the task using the autochecker](#110-check-the-task-using-the-autochecker)
 - [2. Acceptance criteria](#2-acceptance-criteria)
 
 ## 1. Steps
@@ -56,9 +57,9 @@ Title: `[Task] Analytics Endpoints`
    | `TestTimeline` | `GET /analytics/timeline?lab=lab-04` | Submission count per day |
    | `TestGroups` | `GET /analytics/groups?lab=lab-04` | Average score and student count per group |
 
-   > [!NOTE]
-   > The tests create an in-memory database with fixture data and send requests to the endpoints.
-   > You do not need to modify the tests — only the endpoint implementations.
+> [!NOTE]
+> The tests create an in-memory database with fixture data and send requests to the endpoints.
+> You do not need to modify the tests — only the endpoint implementations.
 
 2. [Open the file](../../../wiki/vs-code.md#open-the-file):
    [`backend/app/routers/analytics.py`](../../../backend/app/routers/analytics.py).
@@ -79,7 +80,7 @@ Title: `[Task] Analytics Endpoints`
    uv run poe test
    ```
 
-3. You should see 17 analytics tests failing and 3 interaction tests passing:
+   You should see 17 analytics tests failing and 3 interaction tests passing:
 
    ```terminal
    17 failed, 3 passed
@@ -89,7 +90,7 @@ Title: `[Task] Analytics Endpoints`
 
 ### 1.5. Implement the endpoints
 
-You can implement the endpoints manually or use an AI coding agent. Each endpoint performs an SQL aggregation query.
+You can implement the endpoints manually or use an AI coding agent. Each endpoint performs an `SQL` aggregation query.
 
 > [!TIP]
 > If using an AI agent, give it a prompt like:
@@ -98,7 +99,7 @@ You can implement the endpoints manually or use an AI coding agent. Each endpoin
 >
 > The agent will have the test expectations and the TODO comments to guide it.
 
-The `lab` query parameter is a lab identifier like `"lab-04"`. Use it to find items whose title contains the lab identifier.
+The `lab` query parameter is a lab identifier like `"lab-04"`. Transform it to match the title format (e.g. `"lab-04"` → `"Lab 04"`) and find items whose title contains that string.
 
 <!-- no toc -->
 - [1.5.1. Scores histogram](#151-scores-histogram)
@@ -123,7 +124,7 @@ Returns the distribution of scores in four buckets:
 
 Query logic:
 
-1. Find the lab item whose title contains the `lab` parameter.
+1. Find the lab item whose title contains the `lab` parameter (e.g. `"lab-04"` → match `"Lab 04"` in the title).
 2. Find all task items that belong to this lab (`parent_id = lab.id`).
 3. Query interactions for these tasks that have a `score`.
 4. Group scores into 4 buckets using `CASE WHEN` expressions.
@@ -195,7 +196,7 @@ Query logic:
    uv run poe test
    ```
 
-2. All 20 tests should pass:
+   All 20 tests should pass:
 
    ```terminal
    ===================== 20 passed in X.XXs =====================
@@ -207,7 +208,9 @@ Query logic:
 
    Read the failing test name and assertion message carefully. The test names describe what they expect. For example, `test_scores_counts_are_correct` checks specific count values for each bucket.
 
-   Run a single test class to focus on one endpoint:
+   To run a single test class to focus on one endpoint,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
    uv run pytest backend/tests/unit/test_analytics.py::TestScores -v
@@ -219,11 +222,31 @@ Query logic:
 
    </details>
 
-### 1.7. Deploy and verify
+### 1.7. Commit and push your work
 
-1. Push your changes and deploy to the VM:
+1. [Commit](../../../wiki/git-workflow.md#commit-changes) your changes.
 
-   On your VM:
+   Use this commit message:
+
+   ```text
+   feat: implement analytics endpoints (scores, pass-rates, timeline, groups)
+   ```
+
+2. To push your task branch,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```terminal
+   git push -u origin <task-branch>
+   ```
+
+   Replace [`<task-branch>`](../../../wiki/git-workflow.md#task-branch).
+
+### 1.8. Deploy and verify
+
+1. To pull your branch and restart the services on your VM,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
    cd se-toolkit-lab-5
@@ -233,24 +256,20 @@ Query logic:
 
    Replace [`<task-branch>`](../../../wiki/git-workflow.md#task-branch).
 
-2. Open [`Swagger UI`](../../../wiki/swagger.md#what-is-swagger-ui) and try each analytics endpoint with `lab=lab-04` (or any lab that has data).
+2. [Open `Swagger UI`](../../../wiki/swagger.md#open-swagger-ui) at `http://<your-vm-ip-address>:42002/docs`.
 
-   Verify that each endpoint returns a `200` response with a JSON array.
+3. [Authorize in `Swagger UI`](../../../wiki/swagger.md#authorize-in-swagger-ui) with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key) in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret).
 
-### 1.8. Commit your work
-
-1. [Commit](../../../wiki/git-workflow.md#commit) your changes.
-
-   Use this commit message:
-
-   ```text
-   feat: implement analytics endpoints (scores, pass-rates, timeline, groups)
-   ```
+4. Try each analytics endpoint with `lab=lab-04` (or any lab that has data). Verify that each returns a `200` response with a `JSON` array.
 
 ### 1.9. Finish the task
 
 1. [Create a PR](../../../wiki/git-workflow.md#create-a-pr-to-the-main-branch-in-your-fork) with your changes.
 2. [Get a PR review](../../../wiki/git-workflow.md#get-a-pr-review) and complete the subsequent steps in the `Git workflow`.
+
+### 1.10. Check the task using the autochecker
+
+[Check the task using the autochecker `Telegram` bot](../../../wiki/autochecker.md#check-the-task-using-the-autochecker-bot).
 
 ---
 
@@ -258,9 +277,9 @@ Query logic:
 
 - [ ] Issue has the correct title.
 - [ ] `uv run poe test` passes all 20 tests (17 analytics + 3 interaction).
-- [ ] `GET /analytics/scores?lab=<lab>` returns `200` with a JSON array of 4 bucket objects.
-- [ ] `GET /analytics/pass-rates?lab=<lab>` returns `200` with a JSON array of task objects.
-- [ ] `GET /analytics/timeline?lab=<lab>` returns `200` with a JSON array of date objects.
-- [ ] `GET /analytics/groups?lab=<lab>` returns `200` with a JSON array of group objects.
+- [ ] `GET /analytics/scores?lab=<lab>` returns `200` with a `JSON` array of 4 bucket objects.
+- [ ] `GET /analytics/pass-rates?lab=<lab>` returns `200` with a `JSON` array of task objects.
+- [ ] `GET /analytics/timeline?lab=<lab>` returns `200` with a `JSON` array of date objects.
+- [ ] `GET /analytics/groups?lab=<lab>` returns `200` with a `JSON` array of group objects.
 - [ ] PR is approved.
 - [ ] PR is merged.
