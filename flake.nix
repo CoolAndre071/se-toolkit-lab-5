@@ -62,13 +62,23 @@
                       '#.venv' \
                       '#**/node_modules' \
                       '#*/skills' \
-                      '#tmp'
+                      '#tmp' \
+                      '#instructors/{file-reviews,meetings,scripts}'
                   '';
                   help = "Lint all Markdown files";
                 }
               ];
               "4-lint-tools" = [
                 pkgs.lychee
+              ];
+              "5-instructors" = [
+                {
+                  name = "process-meeting-transcript";
+                  command = ''
+                    ${pkgs.lib.getExe python} ${./instructors/scripts/process-meeting-transcript/process-meeting-transcript.py} "$@"
+                  '';
+                  help = "Process a meeting transcript directory into speaker-labelled text files";
+                }
               ];
             };
           };

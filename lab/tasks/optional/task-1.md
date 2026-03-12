@@ -6,11 +6,35 @@
 
 <h4>Purpose</h4>
 
-Set up `Grafana` as an alternative dashboard tool, connect it to `PostgreSQL`, and build visualizations using SQL queries.
+Set up `Grafana` as an alternative dashboard tool, connect it to `PostgreSQL`, and build visualizations using `SQL` queries.
 
 <h4>Context</h4>
 
-In the required tasks, you built a custom dashboard with `Chart.js` inside the React front-end. `Grafana` is a dedicated dashboarding tool used in industry for monitoring and analytics — it connects directly to the database and lets you build dashboards without writing front-end code.
+In the required tasks, you built a custom dashboard with `Chart.js` inside the `React` front-end. `Grafana` is a dedicated dashboarding tool used in industry for monitoring and analytics — it connects directly to the database and lets you build dashboards without writing front-end code.
+
+<h4>Diagram</h4>
+
+```mermaid
+sequenceDiagram
+    actor Developer
+    participant GH as GitHub
+    participant VM as VM<br/>(Docker)
+    participant Grafana as Grafana<br/>(browser)
+    participant PG as PostgreSQL<br/>(Docker)
+
+    Developer->>GH: Create Lab Task issue
+    Developer->>VM: Uncomment Grafana service
+    Developer->>VM: docker compose up --build -d
+    Developer->>Grafana: Log in
+    Developer->>Grafana: Add PostgreSQL data source
+    Grafana->>PG: Test connection
+    PG-->>Grafana: Connection OK
+    Developer->>Grafana: Build dashboard with SQL panels
+    Grafana->>PG: Execute SQL queries
+    PG-->>Grafana: Query results
+    Developer->>GH: Write reflection comment
+    Developer->>GH: Close the issue
+```
 
 <h4>Table of contents</h4>
 
@@ -22,6 +46,7 @@ In the required tasks, you built a custom dashboard with `Chart.js` inside the R
   - [1.5. Build a dashboard](#15-build-a-dashboard)
   - [1.6. Reflection](#16-reflection)
   - [1.7. Finish the task](#17-finish-the-task)
+  - [1.8. Check the task using the autochecker](#18-check-the-task-using-the-autochecker)
 - [2. Acceptance criteria](#2-acceptance-criteria)
 
 ## 1. Steps
@@ -39,11 +64,11 @@ Title: `[Task] Grafana Dashboard`
 
 3. Uncomment the entire `grafana` service block (remove the `#` characters at the start of each line).
 
-4. If you want to change the default admin credentials, uncomment and edit the `GF_SECURITY_ADMIN_USER` and `GF_SECURITY_ADMIN_PASSWORD` lines in `.env.docker.secret`.
+4. If you want to change the default admin credentials, uncomment and edit the `GF_SECURITY_ADMIN_USER` and `GF_SECURITY_ADMIN_PASSWORD` lines in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret).
 
 ### 1.3. Start `Grafana`
 
-1. On your VM, to start `Grafana`,
+1. To start `Grafana` on your VM,
 
    [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
@@ -68,17 +93,18 @@ Title: `[Task] Grafana Dashboard`
 2. Select **PostgreSQL**.
 3. Configure the connection:
 
-   | Field | Value |
-   |-------|-------|
-   | Host | `postgres:5432` |
-   | Database | `db-lab-5` |
-   | User | `postgres` |
-   | Password | `postgres` |
-   | TLS/SSL Mode | `disable` |
+   | Field        | Value           |
+   | ------------ | --------------- |
+   | Host         | `postgres:5432` |
+   | Database     | `db-lab-5`      |
+   | User         | `postgres`      |
+   | Password     | `postgres`      |
+   | TLS/SSL Mode | `disable`       |
 
-   > [!NOTE]
-   > `Grafana` connects to `PostgreSQL` through the Docker network.
-   > The hostname `postgres` is the service name from `docker-compose.yml`.
+   > 🟦 **Note**
+   >
+   > `Grafana` connects to `PostgreSQL` through the `Docker` network.
+   > The hostname `postgres` is the service name from [`docker-compose.yml`](../../../docker-compose.yml).
 
 4. Click **Save & test**. You should see a "Database Connection OK" message.
 
@@ -129,13 +155,17 @@ Title: `[Task] Grafana Dashboard`
 
 Write a comment on your issue comparing the two approaches:
 
-1. **Hand-built dashboard** (React + Chart.js): What was hard? What was easy?
-2. **Tool-assisted dashboard** (Grafana): What was hard? What was easy?
+1. **Hand-built dashboard** (`React` + `Chart.js`): What was hard? What was easy?
+2. **Tool-assisted dashboard** (`Grafana`): What was hard? What was easy?
 3. When would you choose one approach over the other?
 
 ### 1.7. Finish the task
 
 1. Close the issue.
+
+### 1.8. Check the task using the autochecker
+
+[Check the task using the autochecker `Telegram` bot](../../../wiki/autochecker.md#check-the-task-using-the-autochecker-bot).
 
 ---
 

@@ -6,13 +6,17 @@
 
 <h4>Purpose</h4>
 
-Implement four analytics endpoints that perform `SQL` aggregation queries on the data populated by the ETL pipeline. Use pre-written tests to verify your implementation.
+Implement four analytics endpoints using `SQL` aggregation queries and verify them with pre-written tests.
 
 <h4>Context</h4>
 
-The ETL pipeline from Task 1 has populated the database with check results. Now the team needs endpoints that aggregate this data for dashboards: score distributions, per-task pass rates, submission timelines, and per-group performance.
+The ETL pipeline from [Task 1](./task-1.md) has populated the database with check results. Now the team needs endpoints that aggregate this data for dashboards: score distributions, per-task pass rates, submission timelines, and per-group performance.
 
 Pre-written tests in [`backend/tests/unit/test_analytics.py`](../../../backend/tests/unit/test_analytics.py) define the expected behavior. Your job is to implement the endpoints so that all tests pass.
+
+<h4>Diagram</h4>
+
+<!-- TODO fill in this section -->
 
 <h4>Table of contents</h4>
 
@@ -50,16 +54,17 @@ Title: `[Task] Analytics Endpoints`
 
    This file contains 17 tests organized into four test classes:
 
-   | Test class | Endpoint | What it tests |
-   |------------|----------|---------------|
-   | `TestScores` | `GET /analytics/scores?lab=lab-04` | Score histogram with 4 buckets |
-   | `TestPassRates` | `GET /analytics/pass-rates?lab=lab-04` | Average score and attempt count per task |
-   | `TestTimeline` | `GET /analytics/timeline?lab=lab-04` | Submission count per day |
-   | `TestGroups` | `GET /analytics/groups?lab=lab-04` | Average score and student count per group |
+   | Test class      | Endpoint                               | What it tests                             |
+   | --------------- | -------------------------------------- | ----------------------------------------- |
+   | `TestScores`    | `GET /analytics/scores?lab=lab-04`     | Score histogram with 4 buckets            |
+   | `TestPassRates` | `GET /analytics/pass-rates?lab=lab-04` | Average score and attempt count per task  |
+   | `TestTimeline`  | `GET /analytics/timeline?lab=lab-04`   | Submission count per day                  |
+   | `TestGroups`    | `GET /analytics/groups?lab=lab-04`     | Average score and student count per group |
 
-> [!NOTE]
-> The tests create an in-memory database with fixture data and send requests to the endpoints.
-> You do not need to modify the tests — only the endpoint implementations.
+   > 🟦 **Note**
+   >
+   > The tests create an in-memory database with fixture data and send requests to the endpoints.
+   > You do not need to modify the tests — only the endpoint implementations.
 
 2. [Open the file](../../../wiki/vs-code.md#open-the-file):
    [`backend/app/routers/analytics.py`](../../../backend/app/routers/analytics.py).
@@ -72,12 +77,20 @@ Title: `[Task] Analytics Endpoints`
 
 1. [Check that the current directory is `se-toolkit-lab-5`](../../../wiki/shell.md#check-the-current-directory-is-directory-name).
 
-2. To run the unit tests,
+2. To copy the [`.env.tests.unit.example`](../../../.env.tests.unit.example) file to the [`.env.tests.unit.secret`](../../../wiki/dotenv-tests-unit-secret.md#what-is-envtestsunitsecret) file,
 
    [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
-   uv run poe test
+   cp .env.tests.unit.example .env.tests.unit.secret
+   ```
+
+3. To run the unit tests,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```terminal
+   uv run poe test-unit
    ```
 
    You should see 17 analytics tests failing and 3 interaction tests passing:
@@ -90,22 +103,22 @@ Title: `[Task] Analytics Endpoints`
 
 ### 1.5. Implement the endpoints
 
-You can implement the endpoints manually or use an AI coding agent. Each endpoint performs an `SQL` aggregation query.
-
-> [!TIP]
-> If using an AI agent, give it a prompt like:
->
-> "Read the tests in `backend/tests/unit/test_analytics.py` and the stubs in `backend/app/routers/analytics.py`. Implement all four endpoints to make the tests pass. Use SQLAlchemy/SQLModel queries."
->
-> The agent will have the test expectations and the TODO comments to guide it.
-
-The `lab` query parameter is a lab identifier like `"lab-04"`. Transform it to match the title format (e.g. `"lab-04"` → `"Lab 04"`) and find items whose title contains that string.
-
 <!-- no toc -->
 - [1.5.1. Scores histogram](#151-scores-histogram)
 - [1.5.2. Pass rates](#152-pass-rates)
 - [1.5.3. Timeline](#153-timeline)
 - [1.5.4. Groups](#154-groups)
+
+You can implement the endpoints manually or use an AI coding agent. Each endpoint performs an `SQL` aggregation query.
+
+> [!TIP]
+> If using an AI agent, give it a prompt like:
+>
+> "Read the tests in `backend/tests/unit/test_analytics.py` and the stubs in `backend/app/routers/analytics.py`. Implement all four endpoints to make the tests pass. Use `SQLAlchemy`/`SQLModel` queries."
+>
+> The agent will have the test expectations and the TODO comments to guide it.
+
+The `lab` query parameter is a lab identifier like `"lab-04"`. Transform it to match the title format (e.g. `"lab-04"` → `"Lab 04"`) and find items whose title contains that string.
 
 #### 1.5.1. Scores histogram
 
@@ -188,12 +201,12 @@ Query logic:
 
 ### 1.6. Run the tests (all should pass)
 
-1. To run the full test suite,
+1. To run the unit tests,
 
    [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
-   uv run poe test
+   uv run poe test-unit
    ```
 
    All 20 tests should pass:
@@ -202,7 +215,7 @@ Query logic:
    ===================== 20 passed in X.XXs =====================
    ```
 
-   <details><summary>Troubleshooting</summary>
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>Some tests still fail</h4>
 
@@ -213,7 +226,7 @@ Query logic:
    [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
-   uv run pytest backend/tests/unit/test_analytics.py::TestScores -v
+   uv run poe test-unit -k TestScores -v
    ```
 
    <h4><code>NotImplementedError</code></h4>
@@ -244,23 +257,64 @@ Query logic:
 
 ### 1.8. Deploy and verify
 
-1. To pull your branch and restart the services on your VM,
+1. To navigate to the project directory on your VM,
 
    [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
    cd se-toolkit-lab-5
+   ```
+
+2. To pull your branch,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```terminal
    git fetch origin && git checkout <task-branch> && git pull
-   docker compose --env-file .env.docker.secret up --build -d
    ```
 
    Replace [`<task-branch>`](../../../wiki/git-workflow.md#task-branch).
 
-2. [Open `Swagger UI`](../../../wiki/swagger.md#open-swagger-ui) at `http://<your-vm-ip-address>:42002/docs`.
+3. To restart the services,
 
-3. [Authorize in `Swagger UI`](../../../wiki/swagger.md#authorize-in-swagger-ui) with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key) in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret).
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
-4. Try each analytics endpoint with `lab=lab-04` (or any lab that has data). Verify that each returns a `200` response with a `JSON` array.
+   ```terminal
+   docker compose --env-file .env.docker.secret up --build -d
+   ```
+
+4. [Open `Swagger UI`](../../../wiki/swagger.md#open-swagger-ui) at `http://<your-vm-ip-address>:42002/docs`.
+
+   Replace [`<your-vm-ip-address>`](../../../wiki/vm.md#your-vm-ip-address).
+
+5. [Authorize in `Swagger UI`](../../../wiki/swagger.md#authorize-in-swagger-ui) with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key) in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret).
+
+6. Try each analytics endpoint with `lab=lab-04` (or any lab that has data).
+
+7. Verify that each returns a `200` response with a `JSON` array.
+
+8. To copy the [`.env.tests.e2e.example`](../../../.env.tests.e2e.example) file to the [`.env.tests.e2e.secret`](../../../wiki/dotenv-tests-e2e-secret.md#what-is-envtestse2esecret) file,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```terminal
+   cp .env.tests.e2e.example .env.tests.e2e.secret
+   ```
+
+9. [Open the file](../../../wiki/vs-code.md#open-the-file): `.env.tests.e2e.secret`.
+
+   Set the values:
+
+   - [`API_BASE_URL`](../../../wiki/dotenv-tests-e2e-secret.md#api_base_url) — the URL of your deployed API (e.g., `http://<your-vm-ip-address>:42002`; replace [`<your-vm-ip-address>`](../../../wiki/vm.md#your-vm-ip-address)).
+   - [`API_KEY`](../../../wiki/dotenv-tests-e2e-secret.md#api_key) — must match [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key) in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret).
+
+10. To run the end-to-end tests against the deployed API,
+
+    [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+    ```terminal
+    uv run poe test-e2e
+    ```
 
 ### 1.9. Finish the task
 
@@ -276,7 +330,7 @@ Query logic:
 ## 2. Acceptance criteria
 
 - [ ] Issue has the correct title.
-- [ ] `uv run poe test` passes all 20 tests (17 analytics + 3 interaction).
+- [ ] `uv run poe test-unit` passes all 20 tests (17 analytics + 3 interaction).
 - [ ] `GET /analytics/scores?lab=<lab>` returns `200` with a `JSON` array of 4 bucket objects.
 - [ ] `GET /analytics/pass-rates?lab=<lab>` returns `200` with a `JSON` array of task objects.
 - [ ] `GET /analytics/timeline?lab=<lab>` returns `200` with a `JSON` array of date objects.

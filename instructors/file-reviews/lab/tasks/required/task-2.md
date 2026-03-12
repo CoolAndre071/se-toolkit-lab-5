@@ -1,11 +1,9 @@
 # Review: `lab/tasks/required/task-2.md`
 
-**Date:** 2026-03-06
-
-**Convention files used:**
-
-- `instructors/context/conventions/tasks.md` — task structure, design principles, conceptual review dimensions (D1–D12)
-- `instructors/context/conventions/common.md` — writing conventions (4.1–4.26)
+- **Date:** 2026-03-10
+- **Convention files used:**
+  - `contributing/conventions/writing/tasks.md` — task structure, design principles, conceptual review dimensions (D1–D12)
+  - `contributing/conventions/writing/common.md` — writing conventions (4.1–4.26)
 
 ---
 
@@ -17,34 +15,31 @@ No issues found.
 
 ### D2. Step-by-step completeness
 
-1. **[Medium]** Lines 39–43 (Step 1.1). The step combines three distinct concerns — issue title, branch naming, and a rhetorical question — instead of providing a single concrete action per step. "Do you remember the advice from Task 1?" is not an actionable instruction.
-   **Suggested fix:** Follow the template: step 1.1 links to the Git workflow page with one sentence; step 1.2 creates the issue with the title. Move branch guidance into the Git workflow link or a NOTE.
+1. **[Medium]** Lines 260–268 ([step 1.8, sub-step 1](../../../../../lab/tasks/required/task-2.md#18-deploy-and-verify)): The code block contains three commands from different tools — `cd` (shell navigation), `git fetch && git checkout && git pull` (version control), and `docker compose up` (container management) — grouped under a single compound intention "To pull your branch and restart the services on your VM." Per task convention Section 3 and common convention 4.1, commands from different tools must be separate numbered steps, each with its own "To..." intention and code block.
+   **Suggested fix:** Split into separate numbered steps: (1) navigate to the project directory, (2) pull the branch, (3) restart Docker services. Each step gets its own "To..." intention, wiki link, and code block.
 
-2. **[Low]** Line 41. "Base it on the latest version on `main` and name it appropriately." is a compound instruction (two actions joined by "and").
-   **Suggested fix:** Split into two separate instructions, or let the Git workflow wiki page handle branch naming.
-
-3. **[Medium]** Line 252. "Open `Swagger UI` at `http://<your-vm-ip-address>:42002/docs`. Authorize with your `API_KEY`." combines two actions in one sentence.
-   **Suggested fix:** Split into separate numbered steps: one for opening Swagger UI, one for authorizing.
+2. **[Low]** Lines 260–268 ([step 1.8, sub-step 1](../../../../../lab/tasks/required/task-2.md#18-deploy-and-verify)): The step runs commands "on your VM" via the `VS Code Terminal` but does not instruct the student to SSH into the VM first, nor reference a prior step or wiki section for connecting. This prerequisite may be covered in earlier tasks but is not referenced here.
+   **Suggested fix:** Add an SSH connection step before the deploy commands, or add a cross-task reference to the step where SSH was established (e.g., `[Connect to your VM](./task-1.md#...)`).
 
 ### D3. Student navigation
 
-1. **[Medium]** Line 37 (Step 1.1 heading). No link to the Git workflow wiki page. A student encountering this step has no way to navigate to the workflow instructions.
-   **Suggested fix:** Add the template instruction: `Follow the [`Git workflow`](../../../wiki/git-workflow.md) to complete this task.`
+No issues found.
 
 ### D4. Checkpoints and feedback loops
 
-1. **[Medium]** Lines 82–86 (Step 1.3). The expected output is numbered as step 3, a separate step from the command (step 2). Convention requires checkpoints to be indented under the action step they verify, not numbered as separate steps.
-   **Suggested fix:** Remove the `3.` numbering and indent the "You should see…" block under step 2.
+1. **[Medium]** Lines 295–301 ([step 1.8, sub-step 8](../../../../../lab/tasks/required/task-2.md#18-deploy-and-verify)): The step runs end-to-end tests (`uv run poe test-e2e`) but shows no expected output or checkpoint. Students cannot verify whether the test run succeeded or how many tests should pass.
+   **Suggested fix:** Add expected output after the command showing the expected number of passing tests, similar to the unit test checkpoint in [step 1.6](../../../../../lab/tasks/required/task-2.md#16-run-the-tests-all-should-pass).
 
-2. **[Medium]** Lines 198–201 (Step 1.5). Same issue — the expected output is numbered as step 2 instead of being indented under the command step (step 1).
-   **Suggested fix:** Remove the `2.` numbering and indent the "All 20 tests should pass:" block under step 1.
+2. **[Medium]** Lines 260–268 ([step 1.8, sub-step 1](../../../../../lab/tasks/required/task-2.md#18-deploy-and-verify)): The Docker deployment command (`docker compose ... up --build -d`) has no checkpoint. Students cannot verify whether the containers started correctly before proceeding to Swagger UI.
+   **Suggested fix:** Add a checkpoint after the command, e.g., "You should see the containers starting. Run `docker compose ps` to verify all services are running."
 
-3. **[Low]** Lines 240–254 (Step 1.7). This is an infrastructure step (Docker deploy) with no troubleshooting block. Students deploying on a VM can hit port conflicts, stale containers, or network issues.
-   **Suggested fix:** Add a `<details><summary>Troubleshooting</summary>` block after the deploy command covering common VM deployment failures.
+3. **[Medium]** Lines 260–268 ([step 1.8, sub-step 1](../../../../../lab/tasks/required/task-2.md#18-deploy-and-verify)): Infrastructure step (Docker on VM) has no troubleshooting block. Convention 4.19 in tasks.md requires collapsible troubleshooting for environment-dependent steps.
+   **Suggested fix:** Add a `<details><summary><b>Troubleshooting (click to open)</b></summary>` block covering common VM deployment failures (port conflicts, stale containers, missing `.env.docker.secret`).
 
 ### D5. Acceptance criteria alignment
 
-No issues found.
+1. **[Low]** Lines 295–301, 316–323 ([step 1.8](../../../../../lab/tasks/required/task-2.md#18-deploy-and-verify) and [Acceptance criteria](../../../../../lab/tasks/required/task-2.md#2-acceptance-criteria)): Step 1.8 runs end-to-end tests but no acceptance criterion covers e2e test results. If e2e tests are expected to pass, add a criterion; if they are optional verification, clarify this in the step text.
+   **Suggested fix:** Either add `- [ ] \`uv run poe test-e2e\` passes all tests.` to the acceptance criteria, or add a note in step 1.8 clarifying that e2e tests are a verification step only.
 
 ### D6. Difficulty and progression
 
@@ -52,29 +47,26 @@ No issues found.
 
 ### D7. Practical usability
 
-1. **[Low]** Lines 240–254 (Step 1.7). The deploy-and-verify step provides no troubleshooting block for infrastructure failures on the VM (see also D4 finding 3).
-   **Suggested fix:** Add a troubleshooting block.
+1. **[Medium]** Lines 260–268 ([step 1.8, sub-step 1](../../../../../lab/tasks/required/task-2.md#18-deploy-and-verify)): The deploy step could silently fail (`docker compose up -d` returns immediately) with no checkpoint or troubleshooting guidance. Students may proceed to Swagger UI and encounter confusing errors without understanding the root cause.
+   **Suggested fix:** See D4 findings 2–3.
 
 ### D8. LLM-independence
 
-No issues found. The task provides detailed query logic for manual implementation (steps 1.4.1–1.4.4), and the AI tip is explicitly optional.
+No issues found.
 
 ### D9. Git workflow coherence
 
-1. **[High]** Lines 37–43 (Step 1.1). The step does not follow the template. It lacks a link to the Git workflow wiki page, merges issue creation into the same step, and uses informal wording ("Follow the usual `Git workflow`", "Do you remember the advice from Task 1?").
-   **Suggested fix:** Restructure to match the template: Step 1.1 = "Follow the `Git workflow`" with a link; Step 1.2 = "Create a `Lab Task` issue" with the title. Renumber subsequent steps.
-
-2. **[Medium]** No separate "Create an issue" step. The template requires step 1.2 to always be "Create an issue" (key rule in Section 1.1 of tasks.md). The issue title is buried inside step 1.1.
-   **Suggested fix:** Add a dedicated step 1.2: `### 1.2. Create a \`Lab Task\` issue` with `Title: \`[Task] Analytics Endpoints\``.
+No issues found.
 
 ### D10. Conceptual gaps and misconceptions
 
-No issues found.
+1. **[Low]** Line 143 ([step 1.5.1, query logic item 4](../../../../../lab/tasks/required/task-2.md#151-scores-histogram)): The `CASE WHEN` SQL syntax is referenced without explanation or link. Students unfamiliar with SQL case expressions may not know how to write them.
+   **Suggested fix:** Add a brief NOTE or link to SQL `CASE WHEN` documentation.
 
 ### D11. Controlled AI steps
 
-1. **[Low]** Lines 94–99. The AI tip provides a suggested prompt, but there is no checkpoint for verifying AI-generated output beyond "run the tests." While the tests serve as a strong verification mechanism, a brief note that students should review the generated code (not just check that tests pass) would reinforce good practice.
-   **Suggested fix:** Add a sentence like "Review the generated code to make sure you understand the queries before moving on."
+1. **[Low]** Lines 114–119 ([step 1.5, TIP block](../../../../../lab/tasks/required/task-2.md#15-implement-the-endpoints)): The AI tip provides an approximate prompt ("give it a prompt like:") rather than an exact or templated prompt. Convention 4.20 in tasks.md recommends exact prompts or templates with `<placeholders>` for reproducibility. Low severity since AI use is optional.
+   **Suggested fix:** Rephrase to "use this prompt:" and present the prompt in a fenced code block.
 
 ### D12. Autochecker verifiability
 
@@ -86,15 +78,11 @@ No issues found.
 
 ### 4.1. Instructions wording
 
-1. **[Fixed]** ~~**Line 41.** "Base it on the latest version on `main` and name it appropriately." — compound instruction ("base it… and name it…"). Convention: "Never write 'Do A and do B.' Instead, split into two numbered steps."~~
-2. **[Fixed]** ~~**Line 43.** "Do you remember the advice from Task 1?" — rhetorical question, not an actionable instruction. Convention: instructions should be concrete actions.~~
-3. **[Fixed]** ~~**Line 252.** "Open `Swagger UI` at `http://<your-vm-ip-address>:42002/docs`. Authorize with your `API_KEY`." — compound instruction (open and authorize).~~
+1. ~~**[Medium]** Line 261: "To pull your branch and restart the services on your VM," is a compound instruction combining two distinct actions with "and." Convention 4.1: "Never write 'Do A and do B.' Instead, split into two numbered steps."~~
 
 ### 4.2. Terminal commands
 
-1. **[Fixed]** ~~**Lines 232–236.** `git push -u origin <task-branch>` — preceded by "Push your task branch:" instead of the required "To <intention>," pattern. Also missing the `[run in the \`VS Code Terminal\`](...)` wiki link.~~
-2. **[Fixed]** ~~**Lines 241–248.** `cd se-toolkit-lab-5 && git fetch… && docker compose…` — preceded by "On your VM, pull your branch and restart the services:" instead of "To <intention>," pattern. Missing the wiki link.~~
-3. **[Fixed]** ~~**Lines 210–214** (inside troubleshooting). `uv run pytest …::TestScores -v` — preceded by "Run a single test class to focus on one endpoint:" instead of "To <intention>," pattern. Missing the wiki link.~~
+1. ~~**[Medium]** Lines 264–268: Three commands from different tools (`cd`, `git`, `docker compose`) appear in a single code block. Convention 4.2 requires each terminal command to have its own "To..." intention pattern with a separate code block. This also violates task convention Section 3, which requires commands from different tools to be in separate numbered steps.~~
 
 ### 4.3. Command Palette commands
 
@@ -118,12 +106,11 @@ No issues found.
 
 ### 4.8. Links and cross-references
 
-1. **[Fixed]** ~~**Line 37.** Step 1.1 heading mentions `Git workflow` but the step body has no link to the Git workflow wiki page. The template requires `Follow the [\`Git workflow\`](../../../wiki/git-workflow.md) to complete this task.`~~
-2. **[Fixed]** ~~**Line 252.** `Swagger UI` is backticked but not linked to a wiki section on first mention in this section (if a swagger wiki page exists).~~
+1. ~~**[Low]** Line 272: Placeholder `<your-vm-ip-address>` first appears in section 1.8 without a link. It is linked on line 292 (`[<your-vm-ip-address>](../../../wiki/vm.md#your-vm-ip-address)`), but convention 4.8 requires linking concepts at their first mention in a section.~~
 
 ### 4.9. Notes, tips, warnings
 
-1. **[Fixed]** ~~**Lines 59–61.** `> [!NOTE]` is indented inside a list item (under step 1 of section 1.2). Convention: "Do not indent alerts. GitHub-flavored Markdown alerts do not render correctly when indented."~~
+No issues found.
 
 ### 4.10. Images
 
@@ -139,11 +126,11 @@ No issues found.
 
 ### 4.13. Diagrams
 
-Not applicable.
+No issues found (see Section 1.1 below for the missing diagram content).
 
 ### 4.14. `<!-- TODO -->` comments
 
-No issues found.
+No issues found (TODOs reported in the TODOs section below).
 
 ### 4.15. `<!-- no toc -->` comments
 
@@ -159,13 +146,7 @@ No issues found.
 
 ### 4.18. Inline formatting of technical terms
 
-1. **[Fixed]** ~~**Line 9.** "SQL aggregation queries" — `SQL` is a language name and should be backticked: `` `SQL` ``. Convention lists `` `SQL` `` explicitly.~~
-2. **[Fixed]** ~~**Line 92.** "an SQL aggregation query" — same issue.~~
-3. **[Fixed]** ~~**Line 254.** "a JSON array" — `JSON` is a format name and should be backticked: `` `JSON` ``. Convention lists `` `JSON` `` explicitly.~~
-4. **[Fixed]** ~~**Line 271.** "a JSON array of 4 bucket objects" — same issue.~~
-5. **[Fixed]** ~~**Line 272.** "a JSON array of task objects" — same issue.~~
-6. **[Fixed]** ~~**Line 273.** "a JSON array of date objects" — same issue.~~
-7. **[Fixed]** ~~**Line 274.** "a JSON array of group objects" — same issue.~~
+No issues found.
 
 ### 4.19. Steps with sub-steps
 
@@ -173,15 +154,15 @@ No issues found.
 
 ### 4.20. Placeholders in docs
 
-No issues found.
+No issues found (see 4.8 above for the unlinked placeholder).
 
 ### 4.21. `docker compose up` commands
 
-No issues found. Line 248 includes `--build`.
+No issues found. Line 267 includes `--build`.
 
 ### 4.22. Environment variable references
 
-1. **[Fixed]** ~~**Line 252.** `API_KEY` is referenced in prose but not linked to its wiki section and source `.env.*.secret` file, as required by the convention.~~
+No issues found.
 
 ### 4.23. Horizontal rules
 
@@ -199,41 +180,48 @@ Not applicable.
 
 Not applicable (placeholder is used, not an example IP).
 
-### Section 1. Task document template (tasks.md)
+### Section 1.1. Key rules — Diagram (tasks.md)
 
-1. **[Fixed]** ~~**Line 37.** Step 1.1 heading says "Follow the usual `Git workflow`" — "usual" is not in the template. Template heading is "Follow the `Git workflow`".~~
-2. **[Fixed]** ~~**Lines 37–43.** Step 1.1 body does not match the template. Missing: `Follow the [\`Git workflow\`](../../../wiki/git-workflow.md) to complete this task.` Instead contains issue title, branch guidance, and a rhetorical question.~~
-3. **[Fixed]** ~~**Missing step 1.2.** The template requires step 1.2 to be "Create a `Lab Task` issue" (key rule: "Step 1.2 is always 'Create an issue'"). Issue creation is merged into step 1.1. All subsequent step numbers are off by one.~~
+1. **[Medium]** Lines 17–19: The `<h4>Diagram</h4>` section contains only a `<!-- TODO fill in this section -->` comment. The task involves actions across multiple environments (local development, VM deployment, GitHub PR and autochecker), so a Mermaid sequence diagram is required per convention 1.1: "Diagram is required whenever the task involves actions across multiple actors or environments."
 
-### Section 4.18. Step checkpoints (tasks.md)
+### Section 1.1. Key rules — Structure (tasks.md)
 
-1. **[Fixed]** ~~**Lines 82–86.** Expected output in step 1.3 is numbered as a separate step (step 3) instead of being indented under the action step (step 2). Convention: "Checkpoints are part of the step, not separate steps."~~
-2. **[Fixed]** ~~**Lines 198–201.** Expected output in step 1.5 is numbered as a separate step (step 2) instead of being indented under the action step (step 1). Same violation.~~
+No issues found.
+
+### Section 3. Steps with sub-steps (tasks.md)
+
+1. ~~**[Medium]** Lines 264–268: Commands from different tools (shell navigation, git version control, Docker container management) are grouped in one code block under one step. Per Section 3: "Never chain commands from different tools or concerns with `&&` — split them into separate numbered steps." While the three git commands on line 266 share the same tool, the `cd`, `git`, and `docker compose` commands must be separate numbered steps.~~
+
+### Section 4. Task design principles (tasks.md)
+
+No issues found (design issues covered in conceptual review above).
 
 ---
 
 ## TODOs
 
-No TODOs found.
+1. **Line 19:** `<!-- TODO fill in this section -->` — under the `<h4>Diagram</h4>` heading.
 
 ---
 
 ## Empty sections
 
-No empty sections found.
+1. **Line 17:** `<h4>Diagram</h4>` — contains only a `<!-- TODO -->` comment, no real content.
 
 ---
 
 ## Summary
 
 | Category | Count |
-|----------|-------|
-| Conceptual — High | 1 |
-| Conceptual — Medium | 5 |
-| Conceptual — Low | 3 |
-| Convention violations | 18 (all fixed) |
-| TODOs | 0 |
-| Empty sections | 0 |
-| **Total** | **27** |
+|---|---|
+| Conceptual [High] | 0 |
+| Conceptual [Medium] | 5 |
+| Conceptual [Low] | 4 |
+| Convention [High] | 0 |
+| Convention [Medium] | 1 |
+| Convention [Low] | 0 |
+| TODOs | 1 |
+| Empty sections | 1 |
+| **Total** | **12** |
 
-**Overall assessment:** The task content is pedagogically solid — the learning objective is clear, the query logic guidance is detailed, and the test-driven approach is well structured. The main structural issue is that step 1.1 deviates significantly from the template by merging the Git workflow and issue creation steps, dropping the Git workflow link, and using informal wording. Several terminal commands are missing the "To <intention>," pattern and wiki links. Checkpoints are numbered as separate steps instead of being indented under the action they verify. Multiple instances of `SQL` and `JSON` are missing backticks per convention 4.18. A `> [!NOTE]` alert is indented inside a list, which breaks GitHub rendering.
+**Overall:** The convention formatting issues in step 1.8 (compound instruction, mixed-tool code block) have been resolved by splitting into separate numbered steps, and the placeholder link was added at first mention. The remaining findings are conceptual (missing checkpoints, troubleshooting block, and e2e acceptance criterion in step 1.8) and the Diagram section which still contains only a TODO — since the task spans local, VM, and GitHub environments, a Mermaid sequence diagram is required per convention. These remaining items require author decisions.

@@ -14,7 +14,7 @@ The lab gets updated regularly, so do [sync your fork with the upstream](https:/
 
 ## Lab story
 
-Today's tasks will be about **Data engineering**. 
+Today's tasks will be about **Data engineering**.
 Same project – **Learning Management Service**.
 
 The system has an API and front-end in place. Now the team needs to populate the database with real data from an external source, build analytics on top of it, and visualize the results.
@@ -68,7 +68,7 @@ In simple words, you should be able to say:
 
 1. [Build the data pipeline](./lab/tasks/required/task-1.md#build-the-data-pipeline)
 2. [Analytics endpoints](./lab/tasks/required/task-2.md#analytics-endpoints)
-3. [Dashboard front-end](./lab/tasks/required/task-3.md#dashboard-front-end)
+3. [Dashboard frontend](./lab/tasks/required/task-3.md#dashboard-frontend)
 
 ### Optional
 

@@ -137,7 +137,7 @@ We refer to your fork as `fork` and to the original repo as `upstream` (выше
 
    > [!IMPORTANT]
    > The credentials must match your autochecker bot registration.
-   > If you haven't registered with the autochecker bot, see [step 1.7](#17-set-up-the-autochecker).
+   > If you haven't registered with the autochecker bot, see [step 1.7](#17-set-up-qwen-code).
 
 ### 1.4. Start the services locally (on your laptop)
 
@@ -153,7 +153,7 @@ We refer to your fork as `fork` and to the original repo as `upstream` (выше
 
    Wait for the services to start. You should see log output from the `app`, `postgres`, `pgadmin`, and `caddy` containers.
 
-   <details><summary>Troubleshooting</summary>
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>Port conflict (<code>port is already allocated</code>)</h4>
 
@@ -274,7 +274,7 @@ We refer to your fork as `fork` and to the original repo as `upstream` (выше
    postgres   Up 55 seconds (healthy)
    ```
 
-   <details><summary>Troubleshooting</summary>
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>Port conflict (<code>port is already allocated</code>)</h4>
 

@@ -10,7 +10,51 @@ Build an ETL pipeline that fetches data from an external API and loads it into t
 
 <h4>Context</h4>
 
-The database starts empty. We can get anonymized data on task completions in Autochecker API. Your job is to build a pipeline that fetches this data and populates your database so the system can serve it through existing endpoints to display as analytics.
+The database starts empty. We can get anonymized data on task completions in `Autochecker` API. Your job is to build a pipeline that fetches this data and populates your database so the system can serve it through existing endpoints to display as analytics.
+
+<h4>Diagram</h4>
+
+```mermaid
+sequenceDiagram
+    actor Developer
+    participant API as Autochecker API<br/>(instructors' VM)
+    participant Local as App+DB<br/>(your computer)
+    participant GH as GitHub
+    participant VM as App+DB<br/>(your VM)
+
+    Note over Developer,API: Part A — Explore the API
+    Developer->>API: curl /api/items
+    API-->>Developer: Item catalog JSON
+    Developer->>API: curl /api/logs?limit=5
+    API-->>Developer: Check logs JSON
+    Developer->>API: curl /api/logs?since=...
+    API-->>Developer: Recent logs JSON
+
+    Note over Developer,VM: Part B — Build and test the pipeline
+    Developer->>Local: docker compose up --build
+    Developer->>Local: POST /pipeline/sync
+    Local->>API: Fetch all items
+    API-->>Local: Items
+    Local->>API: Fetch all logs (paginated)
+    API-->>Local: Logs
+    Local-->>Developer: {"new_records": N, "total_records": N}
+    Developer->>Local: GET /items/
+    Developer->>Local: GET /learners/
+    Developer->>Local: GET /interactions/
+    Developer->>Local: POST /pipeline/sync (idempotency check)
+    Local-->>Developer: {"new_records": 0, "total_records": N}
+
+    Developer->>GH: git push
+    Developer->>VM: git pull
+    Developer->>VM: docker compose up --build
+    Developer->>VM: POST /pipeline/sync
+    VM->>API: Fetch all items
+    API-->>VM: Items
+    VM->>API: Fetch all logs (paginated)
+    API-->>VM: Logs
+    VM-->>Developer: {"new_records": N, "total_records": N}
+    Developer->>GH: Create PR
+```
 
 <h4>Table of contents</h4>
 
@@ -23,7 +67,7 @@ The database starts empty. We can get anonymized data on task completions in Aut
     - [1.3.3. Test incremental sync](#133-test-incremental-sync)
   - [1.4. Part B: Build the pipeline](#14-part-b-build-the-pipeline)
     - [1.4.1. Read the code stubs](#141-read-the-code-stubs)
-    - [1.4.2. Implement the pipeline](#142-implement-the-pipeline)
+    - [1.4.2. Implement the pipeline (AI)](#142-implement-the-pipeline-ai)
     - [1.4.3. Run and test locally](#143-run-and-test-locally)
     - [1.4.4. Verify the data locally](#144-verify-the-data-locally)
     - [1.4.5. Test idempotency locally](#145-test-idempotency-locally)
@@ -43,24 +87,9 @@ Follow the [`Git workflow`](../../../wiki/git-workflow.md) to complete this task
 
 1. Create a `GitHub` issue titled:
 
-   ```
+   ```text
    [Task] Build the Data Pipeline
    ```
-
-2. To create a branch for the task,
-
-   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
-
-   ```terminal
-   git checkout main
-   git pull origin main
-   git checkout -b task/1-build-data-pipeline
-   ```
-
-   We named the branch `task/1-build-data-pipeline` because:
-   - The issue number (`1`) ties the branch to the task issue directly.
-   - The short title (`build-data-pipeline`) makes branch purpose clear in PR lists and `Git` history.
-   - The pattern reduces naming collisions across the team.
 
 ### 1.3. Part A: Explore the API
 
@@ -69,7 +98,7 @@ Follow the [`Git workflow`](../../../wiki/git-workflow.md) to complete this task
 - [1.3.2. Fetch check logs](#132-fetch-check-logs)
 - [1.3.3. Test incremental sync](#133-test-incremental-sync)
 
-Before writing code, let's explore the autochecker API.
+Before writing code, let's explore the `Autochecker` API.
 
 The API has HTTP Basic Auth, we'll use `curl` to send requests.
 
@@ -85,7 +114,7 @@ The API has HTTP Basic Auth, we'll use `curl` to send requests.
      "https://auche.namaz.live/api/items"
    ```
 
-   Replace `<your-email>` and `<github-username><telegram-alias>` with the credentials you entered in autochecker bot.
+   Replace `<your-email>` and `<github-username><telegram-alias>` with the credentials you entered in `Autochecker` bot.
 
    You should see a `JSON` array of labs and tasks from this course:
 
@@ -165,7 +194,7 @@ The API has HTTP Basic Auth, we'll use `curl` to send requests.
 
 <!-- no toc -->
 - [1.4.1. Read the code stubs](#141-read-the-code-stubs)
-- [1.4.2. Implement the pipeline](#142-implement-the-pipeline)
+- [1.4.2. Implement the pipeline (AI)](#142-implement-the-pipeline-ai)
 - [1.4.3. Run and test locally](#143-run-and-test-locally)
 - [1.4.4. Verify the data locally](#144-verify-the-data-locally)
 - [1.4.5. Test idempotency locally](#145-test-idempotency-locally)
@@ -201,9 +230,9 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
    - How to match API data to database models.
    - How to ensure idempotent upserts (skip records that already exist).
 
-#### 1.4.2. Implement the pipeline
+#### 1.4.2. Implement the pipeline (AI)
 
-1. Start the `Qwen code` coding agent in the terminal inside the project directory.
+1. [Start the `Qwen Code` coding agent](../../../wiki/qwen.md#open-a-chat-with-qwen-code) in the terminal inside the project directory.
 2. Give it a prompt that asks for planning, implementation, and explanation:
 
    > "Read the TODO comments in `backend/app/etl.py` and implement all five functions one by one. Use the existing models in `backend/app/models/` and the settings in `backend/app/settings.py`. The API uses HTTP Basic Auth. First give me a short numbered plan, then implement a function, deploy locally, then test, report to me what exactly you've done and explain each function step by step as if teaching a junior engineer. Then confirm with me and proceed to the next function."
@@ -228,6 +257,9 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
 > - "Call out assumptions and edge cases."
 > - "After coding, summarize why this implementation is correct."
 
+> [!NOTE]
+> The implementation must pass `POST /pipeline/sync` — proceed to [step 1.4.3](#143-run-and-test-locally) to verify.
+
 #### 1.4.3. Run and test locally
 
 1. To deploy your changes locally,
@@ -244,7 +276,10 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
 
 3. Authorize with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key).
 
-4. Trigger the pipeline: expand `POST /pipeline/sync`, click `Try it out`, then `Execute`.
+4. Trigger the pipeline. Complete the following steps:
+   1. Expand `POST /pipeline/sync`.
+   2. Click `Try it out`.
+   3. Click `Execute`.
 
    You should see a `200` response with a `JSON` body:
 
@@ -255,55 +290,47 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
    }
    ```
 
-   The exact numbers depend on how many check results exist in the autochecker.
+   The exact numbers depend on how many check results exist in the `Autochecker`.
 
-   > [!TIP]
-   > **If you get a `500` error**, the pipeline code has a bug. Use this debug loop:
-   >
-   > 1. Check the container logs:
-   >    ```terminal
-   >    docker compose --env-file .env.docker.secret logs app --tail 50
-   >    ```
-   > 2. Copy the error traceback and give it to your coding agent.
-   > 3. Apply the fix, rebuild (`docker compose --env-file .env.docker.secret up --build -d`), and try again.
-   >
-   > It is normal to repeat this 2–3 times. AI agents often make mistakes with field names, imports, or database constraints on the first try. Each iteration gets you closer.
-
-   <details><summary>Troubleshooting</summary>
-
-   <h4>401 Unauthorized from the autochecker API</h4>
-
-   Check that `AUTOCHECKER_EMAIL` and `AUTOCHECKER_PASSWORD` are set correctly in `.env.docker.secret`. The password is `<github-username><telegram-alias>` (no spaces, no `@`).
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>500 Internal Server Error</h4>
+  
+   If you get a `500` error, the pipeline code has a bug. Use this debug loop:
 
-   To check the container logs for the error,
+   1. To check the container logs for the error,
 
-   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+      [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+  
+      ```terminal
+      docker compose --env-file .env.docker.secret logs app --tail 50
+      ```
 
-   ```terminal
-   docker compose --env-file .env.docker.secret logs app --tail 50
-   ```
+   2. Copy the error traceback and give it to your coding agent.
+   3. Apply the fix, rebuild (`docker compose --env-file .env.docker.secret up --build -d`), and try again.
+   4. Repeat this cycle 2–3 times. AI agents often make mistakes with field names, imports, or database constraints on the first try. Each iteration gets you closer.
 
-   Common issues: missing import, wrong field name, database constraint violation.
+   <h4>401 Unauthorized from the <code>Autochecker</code> API</h4>
 
-   <h4>Connection refused to the autochecker API</h4>
+   Check that [`AUTOCHECKER_EMAIL`](../../../wiki/dotenv-docker-secret.md#autochecker_email) and [`AUTOCHECKER_PASSWORD`](../../../wiki/dotenv-docker-secret.md#autochecker_password) are set correctly in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret). The password is `<github-username><telegram-alias>` (no spaces, no `@`).
 
-   Verify that `AUTOCHECKER_API_URL` is set to `https://auche.namaz.live` in `.env.docker.secret`.
+   <h4>Connection refused to the <code>Autochecker</code> API</h4>
+
+   Verify that [`AUTOCHECKER_API_URL`](../../../wiki/dotenv-docker-secret.md#autochecker_api_url) is set to `https://auche.namaz.live` in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret).
 
    </details>
 
 #### 1.4.4. Verify the data locally
 
-1. In local [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui), try `GET /items/`.
+1. In local [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui), run `GET /items/` as in [step 1.4.3](#143-run-and-test-locally).
 
    You should see a list of lab and task items created by the pipeline.
 
-2. Try `GET /learners/`.
+2. Run `GET /learners/`.
 
    You should see a list of learners with anonymized `external_id` values and student groups.
 
-3. Try `GET /interactions/`.
+3. Run `GET /interactions/`.
 
    You should see interaction records with `score`, `checks_passed`, and `checks_total` fields.
 
@@ -330,7 +357,7 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
 
 #### 1.4.6. Commit and push your work
 
-1. [Commit](../../../wiki/git-workflow.md#commit) your changes.
+1. [Commit](../../../wiki/git-workflow.md#commit-changes) your changes.
 
    Use this commit message:
 
@@ -350,7 +377,7 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
 
 #### 1.4.7. Update and test on the VM
 
-1. To pull your branch and restart the services on your VM,
+1. To update to your task branch on the VM,
 
    [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
 
@@ -359,37 +386,44 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
    git fetch origin
    git checkout <task-branch>
    git pull origin <task-branch>
+   ```
+
+   Replace [`<task-branch>`](../../../wiki/git-workflow.md#task-branch).
+
+2. To rebuild and start the services,
+
+   [run in the `VS Code Terminal`](../../../wiki/vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```terminal
    docker compose --env-file .env.docker.secret up --build -d
    ```
 
-2. Open [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui) at `http://<your-vm-ip-address>:<caddy-port>/docs`.
+3. Open [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui) at `http://<your-vm-ip-address>:<caddy-port>/docs`.
 
    Replace:
 
    - `<your-vm-ip-address>` with your VM's IP address.
-   - `<caddy-port>` with the value of [`CADDY_HOST_PORT`](../../../wiki/dotenv-docker-secret.md#caddy_host_port) (default: `42002`).
+   - `<caddy-port>` with the value of [`CADDY_HOST_PORT`](../../../wiki/dotenv-docker-secret.md#caddy_host_port) in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret) (default: `42002`).
 
-3. Authorize with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key).
+4. Authorize with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key).
 
-4. Run `POST /pipeline/sync` once.
+5. Run `POST /pipeline/sync` once.
 
-   You should get `200` with `new_records` and `total_records`.
+   You should see a `200` response with a `JSON` body:
+
+   ```json
+   {
+     "new_records": 150,
+     "total_records": 150
+   }
+   ```
+
+   The exact numbers depend on how many check results exist in the `Autochecker`.
 
 ### 1.5. Finish the task
 
-1. Go to your fork on `GitHub` and click `Pull requests` → `New pull request`.
-
-2. **Change the base repository to your own fork** — by default `GitHub` sets the base to the upstream (`inno-se-toolkit/se-toolkit-lab-5`). Click `base repository` and select `<your-github-username>/se-toolkit-lab-5` instead.
-
-3. Set the base branch to `main` and the compare branch to your task branch (e.g. `task/1-build-data-pipeline`).
-
-4. Write a PR title and description. Link the PR to the issue by writing `Closes #<issue-number>` in the description.
-
-5. Click `Create pull request`.
-
-6. Ask your partner to review and approve the PR.
-
-7. Merge the PR and close the issue.
+1. [Create a PR](../../../wiki/git-workflow.md#create-a-pr-to-the-main-branch-in-your-fork) with your changes.
+2. [Get a PR review](../../../wiki/git-workflow.md#get-a-pr-review) and complete the subsequent steps in the `Git workflow`.
 
 ### 1.6. Check the task using the autochecker
 

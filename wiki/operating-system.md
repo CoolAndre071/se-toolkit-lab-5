@@ -9,15 +9,15 @@
   - [`Windows`](#windows)
     - [`WSL`](#wsl)
 - [Program](#program)
-  - [Useful programs](#useful-programs)
 - [Process](#process)
   - [Background process](#background-process)
   - [PID](#pid)
 - [Service](#service)
 - [User](#user)
-  - [`<user>` placeholder](#user-placeholder)
+  - [Username](#username)
+  - [`<username>` placeholder](#username-placeholder)
 - [Group](#group)
-- [Terminal](#terminal)
+- [Permission](#permission)
 
 ## What is an operating system
 
@@ -66,10 +66,6 @@ It's a static entity stored on disk that becomes a [process](#process) when exec
 
 Programs can be compiled binaries, scripts, or other executable files that perform specific tasks when run by a user or system.
 
-### Useful programs
-
-See [Useful programs](./useful-programs.md).
-
 ## Process
 
 A process is an instance of a running [program](#program).
@@ -114,20 +110,28 @@ They form the backbone of system functionality and network communications.
 
 A user is an account on the operating system that can run [processes](#process) and own [files](./file-system.md#file).
 
-Each user has a primary account name and a set of permissions that determine what resources they can access or modify.
+Each user has a [username](#username) and a set of [permissions](#permission) that determine what resources they can access or modify.
 
-### `<user>` placeholder
+### Username
 
-The [user](#user) name (without `<` and `>`).
+A username is the unique name that identifies a [user](#user) account on the operating system. It is used when logging in to the system.
+
+### `<username>` placeholder
+
+The [username](#username) (without `<` and `>`).
 
 ## Group
 
-A group is a collection of [users](#user) that share the same access permissions to [files](./file-system.md#file) and [directories](./file-system.md#directory).
+A group is a collection of [users](#user) that share the same [access permissions](#permission) to [files](./file-system.md#file) and [directories](./file-system.md#directory).
 
 Groups allow an administrator to manage permissions for multiple users at once: adding a user to a group grants them all the group's permissions.
 
 Each user has a primary group and can belong to additional supplementary groups.
 
-## Terminal
+## Permission
 
-<!-- TODO -->
+A permission is a rule that controls whether a [user](#user) or [group](#group) can read, modify, or execute a resource such as a [file](./file-system.md#file) or [directory](./file-system.md#directory).
+
+Permissions determine what actions each user can perform on the system, preventing unauthorized access and protecting shared resources.
+
+See [`Linux` permissions](./linux.md#permissions) for how permissions work on [`Linux`](./linux.md#what-is-linux).

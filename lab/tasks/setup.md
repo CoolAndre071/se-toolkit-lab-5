@@ -198,7 +198,7 @@
 2. [Check the current shell in the `VS Code Terminal`](../../wiki/vs-code.md#check-the-current-shell-in-the-vs-code-terminal).
 3. [Install the recommended `VS Code` extensions](../../wiki/vs-code.md#install-the-recommended-vs-code-extensions).
 
-<details><summary>Troubleshooting</summary>
+<details><summary><b>Troubleshooting (click to open)</b></summary>
 
 <h4>The terminal shell is not <code>bash</code> or <code>zsh</code></h4>
 
@@ -242,7 +242,7 @@ If you can't [connect to your VM](../../wiki/vm.md#connect-to-the-vm), complete 
 
 ### 1.10. (UPD) Set up `Node.js`
 
-1. [Set up `Node.js`](../../wiki/nodejs.md#set-up-nodejs-in-vs-code).
+1. [Set up `Node.js`](../../wiki/nodejs.md#install-nodejs).
 
    **Note:** you've already opened the project directory.
 
@@ -277,7 +277,7 @@ If you can't [connect to your VM](../../wiki/vm.md#connect-to-the-vm), complete 
 
    Wait for the services to start. You should see log output from the `app`, `postgres`, `pgadmin`, and `caddy` containers.
 
-   <details><summary>Troubleshooting</summary>
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>Port conflict (<code>port is already allocated</code>)</h4>
 
@@ -378,7 +378,7 @@ If you can't [connect to your VM](../../wiki/vm.md#connect-to-the-vm), complete 
 1. [Open `pgAdmin`](../../wiki/pgadmin.md#open-pgadmin).
 2. [Connect `pgAdmin` to the `PostgreSQL` server](../../wiki/pgadmin.md#connect-to-the-postgresql-server).
 
-<details><summary>Troubleshooting</summary>
+<details><summary><b>Troubleshooting (click to open)</b></summary>
 
 <h4><code>pgAdmin</code> page does not load</h4>
 
@@ -419,8 +419,8 @@ A coding agent can help you write code, explain concepts, and debug issues.
   <img alt="Qwen response" src="../images/tasks/setup/qwen-response.png" style="width:300px"></img>
 </div>
 
-- Method 1: [Set up a `Qwen Code`-based agent](../../wiki/coding-agents.md#set-up-qwen-code-based-agent).
-- Method 2: [Choose another coding agent](../../wiki/coding-agents.md#choose-a-coding-agent).
+- Method 1: [Set up a `Qwen Code`-based agent](../../wiki/qwen.md#set-up-qwen-code).
+- Method 2: [Choose another coding agent](../../wiki/coding-agents.md#choose-and-use-a-coding-agent).
 
 ### 1.17. Set up the autochecker
 

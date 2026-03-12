@@ -51,7 +51,7 @@ Steps:
 5. Enable `Code Switching`.
 6. Upload the recording.
 7. Use `Export sentences` to get a `JSON` file with labelled sentences.
-8. Save the file to `lab-design/lab-<N>/iteration-<M>/meeting-transcripts/sentences.json`
+8. Save the file to `meetings/week-<N>/meeting-<M>/meetings/sentences.json`
 
    Identify which speakers are the same person.
 9. In `Claude`, use the skill `/get-meeting-transcript <N> <M>` to get transcript files.
@@ -61,7 +61,7 @@ Steps:
 
 ## Get meeting report
 
-1. In `Claude`, use the skill `/get-meeting-report <N> <M>` to get a report at `lab-design/lab-<N>/iteration-<M>/meeting-report.md` following the rules in [`meeting-report-prompt.md`](./context/meeting-report/meeting-report-prompt.md).
+1. In `Claude`, use the skill `/get-meeting-report <N> <M>` to get a report at `meetings/week-<N>/meeting-<M>/report.md` following the rules in [`meeting-report.md`](../contributing/conventions/meetings/meeting-report.md).
 2. In `Claude`, use the skill `/review-meeting-report` to review the report against the transcript and other files discussed during the meeting.
 
 ## Enter the devshell
@@ -70,7 +70,7 @@ Steps:
 
 ## Review a file by conventions
 
-Use the `Claude` skill `/review-file-by-conventions <filepath>`.
+Use the `Claude` skill `/review-file <filepath>`.
 
 ## Lessons learned
 

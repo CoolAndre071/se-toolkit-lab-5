@@ -14,6 +14,10 @@
   - [`APP_ENABLE_INTERACTIONS`](#app_enable_interactions)
   - [`APP_ENABLE_LEARNERS`](#app_enable_learners)
   - [`API_KEY`](#api_key)
+- [`autochecker`](#autochecker)
+  - [`AUTOCHECKER_API_URL`](#autochecker_api_url)
+  - [`AUTOCHECKER_EMAIL`](#autochecker_email)
+  - [`AUTOCHECKER_PASSWORD`](#autochecker_password)
 - [`postgres`](#postgres)
   - [`POSTGRES_DB`](#postgres_db)
   - [`POSTGRES_USER`](#postgres_user)
@@ -113,6 +117,28 @@ Default: `true`
 The secret key used to authorize [API](./api.md#what-is-an-api) requests. See [API key authentication](./security.md#api-key-authentication).
 
 Default: `my-secret-api-key`
+
+## `autochecker`
+
+Variables for the [autochecker](./autochecker.md) ETL pipeline.
+
+### `AUTOCHECKER_API_URL`
+
+The base URL of the autochecker API.
+
+Default: `https://auche.namaz.live`
+
+### `AUTOCHECKER_EMAIL`
+
+The email used to authenticate with the autochecker API. Use your university email.
+
+Default: `you@innopolis.university`
+
+### `AUTOCHECKER_PASSWORD`
+
+The password used to authenticate with the autochecker API. Composed of your `<github-username><telegram-alias>` (no spaces, no `@`).
+
+Default: `your-github-username-and-tg-alias`
 
 ## `postgres`
 

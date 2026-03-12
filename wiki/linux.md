@@ -9,6 +9,9 @@
   - [A non-root user](#a-non-root-user)
 - [Permissions](#permissions)
 - [`Linux` administration](#linux-administration)
+  - [Change permissions](#change-permissions)
+    - [`chmod`](#chmod)
+    - [`chown`](#chown)
   - [Get my current user](#get-my-current-user)
   - [The `sudo` command](#the-sudo-command)
   - [Create a non-root user](#create-a-non-root-user)
@@ -40,11 +43,68 @@ See [Group](./operating-system.md#group).
 
 ## Permissions
 
-<!-- TODO -->
+On [`Linux`](#what-is-linux), each [file](./file-system.md#file) and [directory](./file-system.md#directory) has [permissions](./operating-system.md#permission) that control access for three categories: the owning [user](./operating-system.md#user), the owning [group](./operating-system.md#group), and everyone else.
+
+Each category can have three types of access:
+
+- **Read (`r`)** — view the contents of a file or list the contents of a directory.
+- **Write (`w`)** — modify a file or add/remove files in a directory.
+- **Execute (`x`)** — run a file as a program or enter a directory.
+
+Permissions are often represented as a three-digit number (e.g., `755`, `600`), where each digit encodes the read, write, and execute flags for the owner, group, and others respectively.
+
+See:
+
+- [Change permissions](#change-permissions).
 
 ## `Linux` administration
 
-`Linux` administration covers system-level tasks such as managing [users](./operating-system.md#user), [groups](./operating-system.md#group), and permissions on a [`Linux`](./linux.md#what-is-linux) system.
+`Linux` administration covers system-level tasks such as managing [users](./operating-system.md#user), [groups](./operating-system.md#group), and [permissions](#permissions) on a [`Linux`](#what-is-linux) system.
+
+### Change permissions
+
+Changing [permissions](#permissions) controls who can read, write, or execute a file or directory, and who owns it.
+
+Commands for changing permissions:
+
+- [`chmod`](#chmod)
+- [`chown`](#chown)
+
+#### `chmod`
+
+`chmod` changes the permissions of a file or directory.
+
+To set permissions on a file or directory,
+
+[run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+```terminal
+chmod <mode> <path>
+```
+
+Common modes:
+
+- `700` — owner can read, write, and execute; no access for group or others.
+- `600` — owner can read and write; no access for group or others.
+- `644` — owner can read and write; group and others can read.
+
+#### `chown`
+
+`chown` changes the owner and group of a file or directory.
+
+To change the owner and group,
+
+[run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+```terminal
+chown <user>:<group> <path>
+```
+
+To change the owner and group recursively for a directory and its contents, add the `-R` flag:
+
+```terminal
+chown -R <user>:<group> <path>
+```
 
 ### Get my current user
 

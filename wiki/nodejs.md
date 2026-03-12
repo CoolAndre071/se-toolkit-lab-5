@@ -93,7 +93,7 @@ Docs:
 
 1. Go to the [`Download Node.js` page](https://nodejs.org/en/download)
 
-2. Configure the instructions for a [terminal](./operating-system.md#terminal). If you use:
+2. Configure the instructions for a [terminal](./terminal.md). If you use:
 
    - `Linux`: Get `v25.x.x` for `Linux` using `<tool>` with `<package-manager>`
    - `macOS`: Get `v25.x.x` for `macOS` using `<tool>` with `<package-manager>`

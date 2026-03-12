@@ -87,6 +87,7 @@ Complete these steps:
 1. [Install `Python` and dependencies](#install-python-and-dependencies).
 2. [Check that `Python` works](#check-that-python-works).
 3. [Select the `Python` interpreter](#select-the-python-interpreter).
+4. [Check that the language server works](#check-that-the-language-server-works).
 
 ### Install `Python` and dependencies
 

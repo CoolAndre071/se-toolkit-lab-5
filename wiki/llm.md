@@ -6,6 +6,8 @@
 - [Model](#model)
   - [Choose a model](#choose-a-model)
   - [Free models](#free-models)
+- [LLM provider API](#llm-provider-api)
+- [Request to LLM provider API](#request-to-llm-provider-api)
 - [Token](#token)
 - [Context](#context)
   - [Context window](#context-window)
@@ -27,7 +29,7 @@ Docs:
 
 A model is a specific trained version of an [LLM](#llm), identified by a name (e.g., `Qwen3-Coder`, `claude-sonnet-4-6`).
 
-Different models vary in capability, speed, and cost. [Coding agents](./coding-agents.md#choose-a-coding-agent) let you choose which model to use.
+Different models vary in capability, speed, and cost. [Coding agents](./coding-agents.md#choose-and-use-a-coding-agent) let you choose which model to use.
 
 ### Choose a model
 
@@ -38,6 +40,14 @@ Choose a model for the task at hand.
 ### Free models
 
 [`OpenRouter`](https://openrouter.ai/) provides [free models](https://openrouter.ai/collections/free-models).
+
+## LLM provider API
+
+<!-- TODO -->
+
+## Request to LLM provider API
+
+<!-- TODO -->
 
 ## Token
 

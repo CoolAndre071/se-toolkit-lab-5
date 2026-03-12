@@ -613,7 +613,7 @@ Here are some [workspace settings](#workspace-settings) that you can change:
 3. Open this directory.
 
    `VS Code` should now open in that directory.
-4. [Open the `Explorer`](./vs-code.md#open-the-explorer).
+4. [Open the `Explorer`](./vs-code.md#open-the-vs-code-explorer).
 
    You should see `<DIRECTORY-NAME>` there.
 
@@ -665,7 +665,7 @@ Here are some [workspace settings](#workspace-settings) that you can change:
 
    **Note:** the file will be created if it doesn't yet exist.
 
-3. <details><summary>Troubleshooting</summary>
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>(<code>macOS</code> only) <code>command code doesn't exist</code></h4>
 

@@ -1,107 +1,261 @@
-## This lab
+# Ideas
 
-### This lab - TODO
+- [Course - TODO](#course---todo)
+- [Lab 5 - TODO](#lab-5---todo)
+  - [Lab 5 - TODO - Backlog](#lab-5---todo---backlog)
+  - [Lab 5 - TODO - Repo](#lab-5---todo---repo)
+  - [Lab 5 - TODO - Conventions](#lab-5---todo---conventions)
+  - [Lab 5 - TODO - Config](#lab-5---todo---config)
+  - [Lab 5 - TODO - Skills](#lab-5---todo---skills)
+  - [Lab 5 - TODO - Instructors](#lab-5---todo---instructors)
+  - [Lab 5 - TODO - Wiki](#lab-5---todo---wiki)
+  - [Lab 5 - TODO - Docs](#lab-5---todo---docs)
+  - [Lab 5 - TODO - Contributing](#lab-5---todo---contributing)
+  - [Lab 5 - TODO - Git workflow](#lab-5---todo---git-workflow)
+  - [Lab 5 - TODO - Autochecker](#lab-5---todo---autochecker)
+  - [Lab 5 - TODO - Setup](#lab-5---todo---setup)
+  - [Lab 5 - TODO - Task 1](#lab-5---todo---task-1)
+  - [Lab 5 - TODO - Task 2](#lab-5---todo---task-2)
+  - [Lab 5 - TODO - Task 3](#lab-5---todo---task-3)
+  - [Lab 5 - TODO - VM](#lab-5---todo---vm)
+  - [Lab 5 - TODO - VS Code](#lab-5---todo---vs-code)
+  - [Lab 5 - TODO - Architecture](#lab-5---todo---architecture)
+- [Lab 5 - DONE](#lab-5---done)
+  - [Lab 5 - DONE - Repository](#lab-5---done---repository)
+  - [Lab 5 - DONE - Conventions](#lab-5---done---conventions)
+  - [Lab 5 - DONE - Skills](#lab-5---done---skills)
+- [Lab Observability - TODO](#lab-observability---todo)
+  - [Lab Observability - TODO - Backlog](#lab-observability---todo---backlog)
+  - [Lab Telegram Bot - TODO - Task 2](#lab-telegram-bot---todo---task-2)
+- [Future Lab](#future-lab)
+  - [Future Lab - TODO - Backlog](#future-lab---todo---backlog)
+  - [Future Lab - VM setup](#future-lab---vm-setup)
+  - [Hackathon](#hackathon)
 
-1. install nodejs via nix
-2. update caddy port - should be the biggest
-3. goal: interact with the database, not just observe
-4. rename: the autochecker -> `Autochecker`
-5. describe full vm setup
-6. use mdsh for nixpkgs hashes
-7. connect by remote ssh - check your ip to understand where you are
-8. [?] Connect by ssh - can't find ssh config in Linux
-9. should a section in a sequence of steps assume the previous step?
-10. lab-prompts.md? - prompts for agents
-    - bundle all instructions for task 1 in a readable doc
-11. don't use claude-specific words in skills
-12. Use consistent API token (or key?) naming
-13. Rename app -> backend
-14. Rename `APP_` -> `BACK_`
-15. Add `FRONT_` suffix for front-end variables
-16. Always provide links to variables from .env.docker.secret
-17. `.env.local.example`
-18. Student: ask agent why these tests
-19. move generic troubleshooting sections to wiki
-20. autochecker: check file submissions size
-21. Is this true? "# This solution won't work outside the University network."
-22. fix adjacent links
-23. GitHub Pages with good full-text search
-24. `Remote-SSH: Connect to Host...`
-25. what is X -> About X?
-26. setup-simple.md - a simpler version of setup.md
-27. Move constants with `CONST_` prefix from `.env.docker.example` to `.env.const`
-28. conventions: prompt engineering steps:
-    - don't provide a ready prompt first.
-    - hint at what to think about when writing a prompt.
-    - provide the prompt under a spoiler.
-29. Move ideas to the instructors/ideas.md.
-30. Use instructors/meetings just for storing meeting notes, not for the lab design.
-31. skill /issue
-32. russian version
-33. Prompt students to use `skill commit`
-34. setup: The instructions aren't guaranteed to work outside of Linux or macOS. This is why we require to use WSL
-35. coding-agents.md 1000 requests - each file read is a request
-36. Fix config after the migration from the older repo
-37. Migrate relevant parts of inno-se/the-guide
-38. grafana later when we have multiple apps
-39. use pnpm or bun
-40. qwen and ssh
-41. conventions: new sentence on a new line
-42. line break between instructions
-43. line break after curl command
-44. fix /fix-file-by-conventions skill: write title instead of cross-out in the task report.
-45. skill: terms not explained in the wiki
+## Course - TODO
 
-### This lab - DONE
+- Define outcomes in instructors/course.md
 
-1. [x] CRLF - fixed via .gitattributes
-2. [x] switch to typescript
-3. [x] kebab case most of the time - via claude conventions
-4. [x] direnv allow
-5. [x] caddy container has frontend?
-6. [x] in git-workflow.md, explain how to git pull
-7. [x] update db name: lab-4 to db-lab-4
-8. [x] update server name: lab-4 to postgres-lab-4
-9. [x] reuse claude skills for qwen
+## Lab 5 - TODO
 
-       Symlinked QWEN.md to CLAUDE.md and .qwen to .claude.
-       However, the qwen extension can't use skills.
-       Only the CLI version can.
-10. [x] api.md
-11. [x] use postgres 18
-12. [x] conventions include self-checks
-13. [?] add and remove cors
-14. [x] Rename `API_TOKEN` -> `API_KEY`
-15. [x] install extensions not in WSL but earlier and then reopen in WSL
-        Mentioned in the docs on instaling the recommended extensions
-16. [x] move from testing.md to quality-assurance.md
-17. [x] Conventions:
-        Tasks must create controlled environment.
-        Even AI steps.
-18. [x] Conventions - outcomes must be verifiable using the autochecker
-19. [x] Move constants to `.env.docker.example` with `CONST_` prefix
-20. [x] convention - visualize task
-21. [x] use a more neutral IP address in examples
-        Use `192.0.2.1`
-22. [x] review via conventions - check conceptual problems from the educational and practical point of view.
-23. [x] conventions:
+### Lab 5 - TODO - Backlog
 
-      files must stay in sync:
-      - dotenv-docker-secret.md with .env.docker.example
-      - dotenv-tests-unit-secret.md with .env.tests.unit.example
-      - dotenv-tests-e2e-secret.md with .env.tests.e2e.example
-      - pyproject-toml.md with pyproject.toml
-24. [x] report "Which conceptual problems are in ..." then which conventions are violated
-        Have the skill /review-task-conceptual
-25. [x] Run through autochecker note at the end of each task
-        Have a convention now
+### Lab 5 - TODO - Repo
 
-## Next labs
+- agents.md
+- remember to use .agents
 
-1. test front
-2. Implement a Status page <https://status.claude.com/>
+### Lab 5 - TODO - Conventions
+
+- should a section in a sequence of steps assume the previous step?
+- "frontend" and "backend" as nouns
+- Rename app -> backend
+- Rename `APP_` -> `BACK_`
+- Add `FRONT_` suffix for front-end variables
+- Always provide links to variables from .env.docker.secret
+- Consistently use "API token" and "API key" naming
+- setup must correspond to the current project state
+- it's always "repo", not repository
+- new sentence always starts on a new line
+- There's always a blank line between list items
+- In tasks that require prompt engineering:
+  - don't provide a ready prompt first.
+  - hint at what to think about when writing a prompt.
+  - provide the prompt under a spoiler.
+- Where possible in tasks, add tips with prompts:
+  "Explain X"
+  So that students know what to ask about.
+- [?] troubleshooting - block quote
+- setup-simple.md - a simpler version of setup.md
+  must be in sync
+- links should be relative markdown, not just `path/file`
+  
+  skills: links to conventions
+- number sections
+  Keep Decision 1
+- Remove coverage section
+- Specify severity for violations
+
+### Lab 5 - TODO - Config
+
+- .env.docker.secret: update caddy port - should be the biggest
+- pyproject: return test-unit
+- check setup corresponds to the current project state
+- multiple docker compose files
+- Fix config after the migration from the older repo
+- Move constants with `CONST_` prefix from `.env.docker.example` to `.env.const`
+
+### Lab 5 - TODO - Skills
+
+- fix adjacent links
+- don't use claude-specific words in skills
+- skill /issue
+- skill: review lab
+  - run /review-file in parallel on tasks
+  - only sonnet
+- skill: review wiki
+  - run /review-file in parallel on wiki files
+- skill /explain-step
+  - select step, then run skill on the selection
+  - for students - gives complete instructions on how to do the step
+- skill /explain-step-in-russian
+  gives the same instructions as explain-step but in Russian
+- skill /rewrite-lab <programming-language>
+  
+### Lab 5 - TODO - Instructors
+
+- goal: interact with the database, not just observe
+- Rename instructors/lab-design to instructors/meetings
+- Use instructors/meetings just for storing meeting notes, not for the lab design.
+
+### Lab 5 - TODO - Wiki
+
+- [?] use mdsh for tool output
+- vm docs: is this true? "# This solution won't work outside the University network."
+- [?] vm: describe full vm setup step by step
+- vs-code-lsp.md with examples of go to definition
+- [?] reference vs-code-lsp.md in the python setup
+  where testing that the extension works
+- [?] What is X -> About X?
+- explain "skills"
+- wiki: useful-programs -> programs-used
+- Add instructions for qwen by ssh
+  Need browser flow for free requests
+  Therefore, will have to run on the laptop and connect by ssh
+- coding-agents.md - select lines and ask questions
+
+### Lab 5 - TODO - Docs
+
+- GitHub Pages with good full-text search
+
+### Lab 5 - TODO - Contributing
+
+- github workflows: allow PRs with [CONTRIBUTE] prefix
+- github issues: add issue template for bugs in the lab, e.g. [LAB BUG]
+
+### Lab 5 - TODO - Git workflow
+
+- tip: suggest students to use `skill commit`
+- update diagram to mention pull from upstream
+
+### Lab 5 - TODO - Autochecker
+
+- autochecker API:
+  - clarify the formatting of the password
+  - clarify where to get placeholder values when forgot
+- autochecker: check the file submission size
+  file attached to an issue on GitHub
+
+### Lab 5 - TODO - Setup
+
+- Remove info about the database table and data
+  They were loaded from init.sql in the previous lab
+  
+  but there's no data in this lab.
+  
+  Can keep the pgadmin step just to check the tables.
+
+- install nodejs and other tools via nix
+
+- setup: set zsh + starship as default
+  oh my zsh
+  not as login shell because they may uninstall Nix
+
+- Check that you run in WSL
+  screenshot WSL - Ubuntu-24.04 in the lower-left corner
+
+- Check that you have syntax highlighting in VS Code
+
+- The instructions aren't guaranteed to work outside of Linux or macOS. This is why we require to use WSL
+
+### Lab 5 - TODO - Task 1
+
+- line break after the curl command
+- update autochecker API
+
+### Lab 5 - TODO - Task 2
+
+- tasks.test -> tasks.test-unit
+
+### Lab 5 - TODO - Task 3
+
+- Show histogram
+
+### Lab 5 - TODO - VM
+
+- connect by remote ssh - check your ip to understand where you are
+- [?] `Remote-SSH: Connect to Host...`
+  - can't find ssh config in Linux
+
+### Lab 5 - TODO - VS Code
+
+- Default theme - Monokai
+
+### Lab 5 - TODO - Architecture
+
+- `.env.local.example` - run outside of Docker
+  Alternative: enable reload in local development
+
+## Lab 5 - DONE
+
+### Lab 5 - DONE - Repository
+
+- [x] Move ideas to the instructors/ideas.md.
+
+### Lab 5 - DONE - Conventions
+
+- conventions: prohibit agent-specific language in skills
+  see contributing/conventions/agents/skills.md
+- indented note is a block quote
+- meeting report
+  
+  date and deadline in separate sections
+- review which conventions aren't mentioned anywhere or mentioned without a markdown link
+- the autochecker -> `Autochecker`
+
+### Lab 5 - DONE - Skills
+
+- [x] fix /fix-file-by-conventions skill: write title instead of cross-out in the task report.
+  Solution: cross-out, then use a skill for clearing
+
+- [x] lab-prompts.md? - prompts for agents
+  - bundle all instructions for task 1 in a readable doc
+  
+  Solution: We'll add a skill that explains a particular step.
+
+## Lab Observability - TODO
+
+### Lab Observability - TODO - Backlog
+
+- enable logging
+- Implement a Status page like <https://status.claude.com/>
    Must be a separate service that checks health. Grafana?
-3. caddy https
-4. include logging
-5. script for database backup
-6. deploy via github actions
+- test front
+- caddy https
+- include logging
+- script for database backup
+- deploy via github actions
+- use pnpm
+- setup: install everything via nix
+- grafana later when we have multiple apps
+
+### Lab Telegram Bot - TODO - Task 2
+
+- telegram bot task - create an issue from a group chat.
+
+## Future Lab
+
+### Future Lab - TODO - Backlog
+
+- Multiple backends (Go, Haskell, TypeScript, Java)
+
+### Future Lab - VM setup
+
+- use [system-manager](https://github.com/numtide/system-manager)
+- Migrate relevant parts of inno-se/the-guide (environments)
+
+### Hackathon
+
+- Teach to make meeting notes after a discussion using AI
+- provide a prompt for discussing with an AI
+- set up voice mode in the agent
